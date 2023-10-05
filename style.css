@@ -33,8 +33,9 @@ main {
   display: grid;
   grid-template-columns: [start] 4ch 15px max-content 1fr max-content 3ch [end];
   grid-template-rows: [top] var(--row-height) [bottom];
-  gap: 3px;
+  column-gap: 3px;
   align-content: start;
+  align-items: center;
   overflow: clip;
 }
 
@@ -149,22 +150,15 @@ img {
 
 /* Napevno předdefinované velikosti písma dle počtu řádků. Při změně fontu bude potřeba překonfigurovat */
 .fontsize1, .fontsize2, .fontsize3, .fontsize4 {
-  font-size: 19px;
+  font-size: 21px;
 }
 
 .fontsize5 {
   font-size: 18px;
-  line-height: 19px;
 }
 
 .fontsize6 {
-  font-size: 16px;
-  line-height: 14px;
-}
-
-.fontsize7 {
-  font-size: 13px;
-  line-height: 1.03;
+  font-size: 15px;
 }
 
 @keyframes blink {
