@@ -375,13 +375,12 @@ function prepareReadOutDepartures(data) {
     }
   }
 
-  // Get number of displayed rows so we don't say more than necessary
-  const rowLimit = document.getElementsByClassName("route").length;
+  // Count the number of spoken rows. In case we receive more lines then are displayed, stop reading
   let counter = 1;
 
   // Flip through every departure and prepare a sentence
   for (const departure of data.departures) {
-    if (counter > rowLimit) break;
+    if (counter > parameters.limit) break;
     counter++;
     // Autobus 119 směr Letiště odjede z nástupiště A za 5 minut.
     let prepareSentence;
