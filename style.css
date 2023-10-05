@@ -65,12 +65,17 @@ main:has(#fullscreen-text-content) {
 }
 
 .accessible {
-  text-align: center;
+  height: 100%;
   grid-column: 2;
 }
 
+.accessible.true {
+  background: no-repeat center url(accessible.svg);
+  background-size: auto 70%;
+}
+
 .aircondition {
-  text-align: center;
+  height: 100%;
   grid-column: 3;
 }
 

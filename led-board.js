@@ -152,9 +152,7 @@ function updateContent(data) {
     const accessible = document.createElement("div");
     accessible.classList.add("accessible");
     if (row.trip.is_wheelchair_accessible) {
-      const wheelchair = document.createElement("img");
-      wheelchair.setAttribute("src", "accessible.svg");
-      accessible.appendChild(wheelchair);
+      accessible.classList.add("true");
     }
     body.appendChild(accessible);
 
