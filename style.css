@@ -4,6 +4,11 @@
   --row-height: var(--total-height) / (var(--displayed-rows) + 1);
 }
 
+@font-face {
+  font-family: "Lato";
+  src: url("lato-regular.woff2") format('woff2');
+}
+
 body {
   filter: grayscale(1); /* Odstraní barevný šum na hranách textu způsobený hintingem */
   background-color: black;
