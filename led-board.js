@@ -185,9 +185,9 @@ function updateContent(data) {
 }
 
 function processInfoTexts(data) {
-  let inline = false,
-    general = false,
-    general_alternate = false, // Switches that control the display of listed board classes
+  let inline = false,          // These are switches 
+    general = false,           // that are used to check 
+    general_alternate = false, // what type of board is active
     referenceString = "";
 
   // Here the strings will be stored   
@@ -210,11 +210,12 @@ function processInfoTexts(data) {
       (text.display_type === "general-alternate") ? general_alternate = true : general = true;
     }
 
-    // This will be used to compare if infotexts froom previous refresh did change
-    referenceString += text.display_type+text.text+text.text_en;
+    // This will be used to compare if infotexts from previous refresh changed
+    referenceString += text.display_type + text.text + text.text_en;
   }
 
-  // If the text content and infotext types are the same, do not redraw
+  /* If the text content and infotext types are the same, do not redraw it again. This is to
+  prevent skipping or stuttering */
   if (referenceString === settings.infotextContent) {
     return general === true;
   }
@@ -349,7 +350,7 @@ function prepareReadOutDepartures(data) {
   // Store the text to be spoken
   let sentences = [];
   
-  // Fallback
+  // Fallback message when no data is received
   if (!data) {
     sentences.push("Zastávka je nyní bez provozu");
     return sentences;
@@ -358,10 +359,9 @@ function prepareReadOutDepartures(data) {
   // Shortcut if no departures available
   if (data.departures.length === 0) {
     sentences.push("V blízké době není naplánovaný žádný odjezd.");
-    return sentences;
   }
 
-  // GTFS mode translation table
+  // GTFS transport mode translation table
   const transportMode = ["Tramvaj", "Metro", "Vlak", "Autobus", "Přívoz", , "Visutá lanovka", "Lanovka", , "Trolejbus"];
 
   // Prepare infotext
@@ -383,8 +383,7 @@ function prepareReadOutDepartures(data) {
   for (const departure of data.departures) {
     if (counter > rowLimit) break;
     counter++;
-    /* The sentence format depends on the display format
-    Autobus 119 směr Letiště odjede za 5 minut. */
+    // Autobus 119 směr Letiště odjede z nástupiště A za 5 minut.
     let prepareSentence;
     const time = departure.departure_timestamp.minutes;
     const platform = (settings.showPlatformNumbers && departure.stop.platform_code !== null) ? "z nástupiště " + mixedNumberToWords(departure.stop.platform_code) : "";
