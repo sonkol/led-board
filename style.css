@@ -2,6 +2,7 @@
   --displayed-rows: 5;
   --total-height: 128px;
   --row-height: var(--total-height) / (var(--displayed-rows) + 1);
+  --marquee-duration: 10s;
 }
 
 @font-face {
@@ -132,7 +133,10 @@ img {
   justify-content: space-around;
   gap: var(--gap);
   min-width: 100%;
-  animation: scroll 10s linear infinite;
+  animation-name: scroll;
+  animation-duration: var(--marquee-duration);
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
 }
 
 .infotextcontent:after {

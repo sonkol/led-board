@@ -1,6 +1,8 @@
 "use strict";
 // Constant definitions
 const SETTINGS = {
+  "animationSpeed" : 200, // Speed of marqee in some arbitrary units
+  "infotextJoiner" : " • ", // String with which to join information texts 
   "prefix": "https://api.golemio.cz/v2/pid/departureboards/?", // General purpose URL
   "preset" : "https://s.golemio.cz/pid/", // URL for presets
   "httpTimeout": 20,
@@ -227,20 +229,24 @@ function processInfoTexts(data) {
   const dateBar = document.getElementById("date");
   if (inline) {
     // Non-overflowing (short) information text is static
-    infotextBar.innerHTML = infotexts.inline.join(" • ");
+    infotextBar.innerHTML = infotexts.inline.join(SETTINGS.infotextJoiner);
     infotextBar.style.display = "flex";
     dateBar.style.display = "none";
-  }
-  if (inline && infotextBar.scrollWidth > infotextBar.clientWidth) {
-    // If text overflows it will be animated
-    infotextBar.classList.add("marquee");
-    infotextBar.textContent = "";
-    const infotextcontent = document.createElement("div");
-    infotextcontent.classList.add("infotextcontent");
-    infotextcontent.textContent = infotexts.inline.join(" *** ");
-    // The element has to be doubled to animate seamlessly
-    infotextBar.appendChild(infotextcontent);
-    infotextBar.appendChild(infotextcontent.cloneNode(true));
+    if (infotextBar.scrollWidth > infotextBar.clientWidth) {
+      // If text overflows it will be animated
+      infotextBar.classList.add("marquee");
+      infotextBar.textContent = "";
+      const infotextcontent = document.createElement("div");
+      infotextcontent.classList.add("infotextcontent");
+      infotextcontent.textContent = infotexts.inline.join(SETTINGS.infotextJoiner);
+      // The element has to be doubled to animate seamlessly
+      infotextBar.appendChild(infotextcontent);
+      infotextBar.appendChild(infotextcontent.cloneNode(true));
+      /* The marquee animation is defined by its duration. To make the speed of text indpenendent of
+      its length, duration has to be recalculated for every text. */
+      const marqueeDuration = infotextBar.scrollWidth/SETTINGS.animationSpeed;
+      document.documentElement.style.setProperty('--marquee-duration', marqueeDuration+"s");
+    }
   }
   else {
       // Restore display to normal state
@@ -251,7 +257,7 @@ function processInfoTexts(data) {
   // Full screen messages
   if (general || general_alternate) {
     settings.infotextGeneral = true;
-    fullScreenMessage(infotexts.general.join(" *** "));
+    fullScreenMessage(infotexts.general.join(SETTINGS.infotextJoiner));
   }
   else {
     settings.infotextGeneral = false;
