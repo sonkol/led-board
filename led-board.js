@@ -42,7 +42,12 @@ Object.seal(parameters);
 // Get URL parameters
 let searchString = new URLSearchParams(document.location.search);
 for (const [key, value] of searchString) {
-  parameters[key] = value;
+  try {
+    parameters[key] = value;
+  }
+  catch {
+    continue;
+  };
 }
 
 // Assure that user input is correct, if not, replace with default values
