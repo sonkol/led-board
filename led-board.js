@@ -7,7 +7,8 @@ const SETTINGS = {
   "preset" : "https://s.golemio.cz/pid/", // URL for presets
   "httpTimeout": 20,
   "offlineText": "<p>Omlouváme se, zařízení je dočasně mimo provoz</p><p>Aktuální odjezdy spojů naleznete na webu pid.cz/odjezdy</p>",
-  "dayOfWeek": ["Neděle", "Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek", "Sobota"] // Dictionary of week days
+  "dayOfWeek": ["Neděle", "Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek", "Sobota"], // Dictionary of week days
+  "speechSpeed" : 1.2 // Speed of speech (default is 1)
 }
 
 // Settings that can be changed and general variables
@@ -429,6 +430,7 @@ async function readOutLoud(sentences) {
   settings.reading = true;
   const say = new SpeechSynthesisUtterance(sentences);
   say.lang = "cs-CZ";
+  say.rate = SETTINGS.speechSpeed;
   // Speak the texts with intro and outro chimes
   await playChime("start");
   window.speechSynthesis.speak(say);
