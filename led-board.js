@@ -2,13 +2,19 @@
 // Constant definitions
 const SETTINGS = {
   "animationSpeed" : 200, // Speed of marqee in some arbitrary units
-  "infotextJoiner" : " • ", // String with which to join information texts 
   "prefix": "https://api.golemio.cz/v2/pid/departureboards/?", // General purpose URL
   "preset" : "https://s.golemio.cz/pid/", // URL for presets
   "httpTimeout": 20,
-  "offlineText": "<p>Omlouváme se, zařízení je dočasně mimo provoz</p><p>Aktuální odjezdy spojů naleznete na webu pid.cz/odjezdy</p>",
-  "dayOfWeek": ["Neděle", "Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek", "Sobota"], // Dictionary of week days
   "speechSpeed" : 1.2 // Speed of speech (default is 1)
+}
+
+const STRINGS = {
+  "infotextJoiner" : " • ", // String with which to join information texts 
+  "dayOfWeek": ["Neděle", "Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek", "Sobota"], // Dictionary of week days
+  "http400Message" : "Chybný dotaz.<br>Nechybí ID zastávky?",
+  "http401Message" : "Problém s API klíčem<br>Nesprávný nebo chybějící API klíč. Pro získání API klíče se zaregistrujte u Golemia.",
+  "http404Message" : "Zastávka je nyní bez provozu",
+  "offlineText": "<p>Omlouváme se, zařízení je dočasně mimo provoz</p><p>Aktuální odjezdy spojů naleznete na webu pid.cz/odjezdy</p>",
 }
 
 // Settings that can be changed and general variables
@@ -103,20 +109,20 @@ function getData(queryString) {
             updateContent(data);
             break;
           case 400: // Malformed query
-            fullScreenMessage("Chybný dotaz.<br>Nechybí ID zastávky?");
+            fullScreenMessage(STRINGS.http400Message);
             break;
-          case 401:
-            fullScreenMessage("Problém s API klíčem<br>Nesprávný nebo chybějící API klíč. Pro získání API klíče se zaregistrujte u Golemia.");
+          case 401: // No API key
+            fullScreenMessage(STRINGS.http401Message);
             break;
           case 404: // Stop does not exist. Either wrong ASW ID or the stop was cancelled  
-            fullScreenMessage("Zastávka je nyní bez provozu");
+            fullScreenMessage(STRINGS.http404Message);
             break;
           case 0:
-            fullScreenMessage(SETTINGS.offlineText);
+            fullScreenMessage(STRINGS.offlineText);
             break;
           default:
-            fullScreenMessage(SETTINGS.offlineText);
-            console.error("Chyba načítání stránky. HTTP " + httpRequest.status + " " + httpRequest.statusText);
+            fullScreenMessage(STRINGS.offlineText);
+            console.error("HTTP error" + httpRequest.status + " " + httpRequest.statusText);
         }
       }
     }
@@ -234,7 +240,7 @@ function processInfoTexts(data) {
   const dateBar = document.getElementById("date");
   if (inline) {
     // Non-overflowing (short) information text is static
-    infotextBar.innerHTML = infotexts.inline.join(SETTINGS.infotextJoiner);
+    infotextBar.innerHTML = infotexts.inline.join(STRINGS.infotextJoiner);
     infotextBar.style.display = "flex";
     dateBar.style.display = "none";
     if (infotextBar.scrollWidth > infotextBar.clientWidth) {
@@ -243,7 +249,7 @@ function processInfoTexts(data) {
       infotextBar.textContent = "";
       const infotextcontent = document.createElement("div");
       infotextcontent.classList.add("infotextcontent");
-      infotextcontent.textContent = infotexts.inline.join(SETTINGS.infotextJoiner);
+      infotextcontent.textContent = infotexts.inline.join(STRINGS.infotextJoiner);
       // The element has to be doubled to animate seamlessly
       infotextBar.appendChild(infotextcontent);
       infotextBar.appendChild(infotextcontent.cloneNode(true));
@@ -262,7 +268,7 @@ function processInfoTexts(data) {
   // Full screen messages
   if (general || general_alternate) {
     settings.infotextGeneral = true;
-    fullScreenMessage(infotexts.general.join(SETTINGS.infotextJoiner));
+    fullScreenMessage(infotexts.general.join(STRINGS.infotextJoiner));
   }
   else {
     settings.infotextGeneral = false;
@@ -447,7 +453,7 @@ async function readOutLoud(sentences) {
 function updateClock() {
   // Date Úterý 19. 01. 2038
   const now = new Date();
-  const date = SETTINGS.dayOfWeek[now.getDay()] +
+  const date = STRINGS.dayOfWeek[now.getDay()] +
     " " +
     now.getDate().toString().padStart(2, "0") +
     ".&thinsp;" +
