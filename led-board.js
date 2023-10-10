@@ -5,7 +5,7 @@ const SETTINGS = {
   "prefix": "https://api.golemio.cz/v2/pid/departureboards/?", // General purpose URL
   "preset" : "https://s.golemio.cz/pid/", // URL for presets
   "httpTimeout": 20,
-  "speechSpeed" : 1.2 // Speed of speech (default is 1)
+  "speechSpeed" : 0.3 // Speed of speech (default is 1)
 }
 
 const STRINGS = {
@@ -170,9 +170,9 @@ function updateContent(data) {
 
     const airCondition = document.createElement("div");
     airCondition.classList.add("aircondition");
-    if (row.trip.is_air_conditioned) {
+    if (true || row.trip.is_air_conditioned) {  // TODO TEST
       const aircondition = document.createElement("img");
-      aircondition.setAttribute("src", "snowflake.svg");
+      aircondition.setAttribute("src", "vlocka1.webp");
       airCondition.appendChild(aircondition);
     }
     body.appendChild(airCondition);
