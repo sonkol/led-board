@@ -5,7 +5,7 @@ const SETTINGS = {
   "prefix": "https://api.golemio.cz/v2/pid/departureboards/?", // General purpose URL
   "preset" : "https://s.golemio.cz/pid/", // URL for presets
   "httpTimeout": 20,
-  "speechSpeed" : 0.3 // Speed of speech (default is 1)
+  "speechSpeed" : 0.8 // Speed of speech (default is 1)
 }
 
 const STRINGS = {
