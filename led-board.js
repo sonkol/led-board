@@ -172,7 +172,7 @@ function updateContent(data) {
     airCondition.classList.add("aircondition");
     if (true || row.trip.is_air_conditioned) {  // TODO TEST
       const aircondition = document.createElement("img");
-      aircondition.setAttribute("src", "vlocka1.webp");
+      aircondition.setAttribute("src", "vlocka2.webp");
       airCondition.appendChild(aircondition);
     }
     body.appendChild(airCondition);
