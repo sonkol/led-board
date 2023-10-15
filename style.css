@@ -78,11 +78,6 @@ main:has(#fullscreen-text-content) {
   height: 100%;
   grid-column: 3;
 }
-.aircondition img { /* TODO TEST */
-  height: 19px;
-  width: 100%;
-  vertical-align: top;
-}
 
 .headsign {
   text-overflow: ellipsis;
