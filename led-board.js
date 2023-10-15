@@ -153,9 +153,12 @@ function updateContent(data) {
 
   const body = document.getElementsByTagName("main")[0];
   body.replaceChildren();
-  data.departures.forEach((row) => {
+  let counter = 1;
+  for (const row of data.departures){
+    if (counter > parameters.limit) break;
+    counter++;
     printDepartureRow(row, body);
-  });
+  }
 }
 
 function printDepartureRow(row, body){
