@@ -179,7 +179,7 @@ function updateContent(data) {
 
     const headsign = document.createElement("div");
     headsign.classList.add("headsign");
-    headsign.textContent = row.trip.headsign;
+    headsign.textContent = prettyPrint(row.trip.headsign);
     body.appendChild(headsign);
 
     if (settings.showPlatformNumbers) {
@@ -475,6 +475,12 @@ function fullScreenMessage(content = "") {
   message.firstChild.innerHTML = content;
   main.textContent = "";
   main.appendChild(message);
+}
+
+// Add spaces after commas and periods
+function prettyPrint(input){
+	if (input === null) return "";
+	return input.replace(new RegExp("([.,])(?![., 0-9-]|$)","g"),"$1 "); // Contains U+200A Hair space
 }
 
 // Timer for content updates 20 s
