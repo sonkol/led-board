@@ -154,46 +154,50 @@ function updateContent(data) {
   const body = document.getElementsByTagName("main")[0];
   body.replaceChildren();
   data.departures.forEach((row) => {
-    const departure = document.createElement("div");
-
-    const route = document.createElement("div");
-    route.classList.add("route");
-    route.textContent = row.route.short_name;
-    body.appendChild(route);
-
-    const accessible = document.createElement("div");
-    accessible.classList.add("accessible");
-    if (row.trip.is_wheelchair_accessible) {
-      accessible.classList.add("true");
-    }
-    body.appendChild(accessible);
-
-    const airCondition = document.createElement("div");
-    airCondition.classList.add("aircondition");
-    if (row.trip.is_air_conditioned) {
-      const aircondition = document.createElement("img");
-      aircondition.setAttribute("src", "snowflake.svg");
-      airCondition.appendChild(aircondition);
-    }
-    body.appendChild(airCondition);
-
-    const headsign = document.createElement("div");
-    headsign.classList.add("headsign");
-    headsign.textContent = prettyPrint(row.trip.headsign);
-    body.appendChild(headsign);
-
-    if (settings.showPlatformNumbers) {
-      const platform = document.createElement("div");
-      platform.classList.add("platform");
-      platform.textContent = row.stop.platform_code;
-      body.appendChild(platform);
-    }
-
-    const arrival = document.createElement("div");
-    arrival.classList.add("arrival");
-    arrival.textContent = row.departure_timestamp.minutes;
-    body.appendChild(arrival);
+    printDepartureRow(row, body);
   });
+}
+
+function printDepartureRow(row, body){
+  const departure = document.createElement("div");
+
+  const route = document.createElement("div");
+  route.classList.add("route");
+  route.textContent = row.route.short_name;
+  body.appendChild(route);
+
+  const accessible = document.createElement("div");
+  accessible.classList.add("accessible");
+  if (row.trip.is_wheelchair_accessible) {
+    accessible.classList.add("true");
+  }
+  body.appendChild(accessible);
+
+  const airCondition = document.createElement("div");
+  airCondition.classList.add("aircondition");
+  if (row.trip.is_air_conditioned) {
+    const aircondition = document.createElement("img");
+    aircondition.setAttribute("src", "snowflake.svg");
+    airCondition.appendChild(aircondition);
+  }
+  body.appendChild(airCondition);
+
+  const headsign = document.createElement("div");
+  headsign.classList.add("headsign");
+  headsign.textContent = prettyPrint(row.trip.headsign);
+  body.appendChild(headsign);
+
+  if (settings.showPlatformNumbers) {
+    const platform = document.createElement("div");
+    platform.classList.add("platform");
+    platform.textContent = row.stop.platform_code;
+    body.appendChild(platform);
+  }
+
+  const arrival = document.createElement("div");
+  arrival.classList.add("arrival");
+  arrival.textContent = row.departure_timestamp.minutes;
+  body.appendChild(arrival);
 }
 
 function processInfoTexts(data) {
