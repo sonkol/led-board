@@ -454,7 +454,7 @@ function updateClock() {
   // Date Úterý 19. 01. 2038
   const now = new Date();
   const date = STRINGS.dayOfWeek[now.getDay()] +
-    " " +
+    "&emsp;" +
     now.getDate().toString().padStart(2, "0") +
     ".&thinsp;" +
     (now.getMonth() + 1).toString().padStart(2, "0") +
