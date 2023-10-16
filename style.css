@@ -70,13 +70,18 @@ main:has(#fullscreen-text-content) {
 }
 
 .accessible.true {
-  background: no-repeat center url(accessible.svg);
-  background-size: auto 70%;
+  background: no-repeat center url(accessible.webp);
+  background-size: 10px 11px;
 }
 
 .aircondition {
   height: 100%;
   grid-column: 3;
+}
+
+.aircondition img { /* TODO TEST */
+  height: 11px;
+  width: 11px;
 }
 
 .headsign {

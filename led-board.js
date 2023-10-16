@@ -180,7 +180,7 @@ function printDepartureRow(row, body){
   airCondition.classList.add("aircondition");
   if (row.trip.is_air_conditioned) {
     const aircondition = document.createElement("img");
-    aircondition.setAttribute("src", "snowflake.svg");
+    aircondition.setAttribute("src", "snowflake.webp");
     airCondition.appendChild(aircondition);
   }
   body.appendChild(airCondition);
