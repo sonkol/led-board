@@ -32,16 +32,12 @@ body {
 main {
   height: calc(var(--total-height) - var(--row-height));
   display: grid;
-  grid-template-columns: [start] 4ch 15px max-content 1fr max-content 3ch [end];
+  grid-template-columns: [start] 4ch 11px 11px 1fr max-content 3ch [end];
   grid-template-rows: [top] var(--row-height) [bottom];
   column-gap: 3px;
   align-content: start;
   align-items: center;
   overflow: clip;
-}
-
-.aircondition:empty, .plaform:empty {
-  position: absolute;
 }
 
 main:has(#fullscreen-text-content) {
@@ -65,7 +61,8 @@ main:has(#fullscreen-text-content) {
 }
 
 .accessible {
-  height: 100%;
+  height: 10px;
+  width: 11px;
   grid-column: 2;
 }
 
@@ -75,13 +72,14 @@ main:has(#fullscreen-text-content) {
 }
 
 .aircondition {
-  height: 100%;
+  height: 11px;
+  width: 11px;
   grid-column: 3;
 }
 
-.aircondition img { /* TODO TEST */
-  height: 11px;
-  width: 11px;
+.aircondition.true {
+  background: no-repeat center url(snowflake.webp);
+  background-size: 11px 11px;
 }
 
 .headsign {

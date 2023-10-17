@@ -179,9 +179,7 @@ function printDepartureRow(row, body){
   const airCondition = document.createElement("div");
   airCondition.classList.add("aircondition");
   if (row.trip.is_air_conditioned) {
-    const aircondition = document.createElement("img");
-    aircondition.setAttribute("src", "snowflake.webp");
-    airCondition.appendChild(aircondition);
+    airCondition.classList.add("true");
   }
   body.appendChild(airCondition);
 
