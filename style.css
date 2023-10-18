@@ -61,25 +61,34 @@ main:has(#fullscreen-text-content) {
 }
 
 .accessible {
-  width: 10px;
-  height: 11px;
+  width: 100%;
+  height: 100%;
   grid-column: 2;
 }
 
-.accessible.true {
-  background: no-repeat center url(accessible.webp);
-  background-size: 10px 11px;
-}
-
 .aircondition {
-  width: 11px;
-  height: 11px;
+  width: 100%;
+  height: 100%;
   grid-column: 3;
 }
 
+.accessible.true, .aircondition.true {
+  background-repeat: no-repeat;
+  background-position: center 40%;
+}
+
+.accessible.true {
+  background-image: url(accessible.webp);
+  background-size: 10px 11px;
+}
+
 .aircondition.true {
-  background: no-repeat center url(snowflake.webp);
+  background-image: url(snowflake.webp);
   background-size: 11px 11px;
+}
+
+body.fontsize4 .accessible.true, body.fontsize4 .aircondition.true {
+  background-position-y: center;
 }
 
 .headsign {
