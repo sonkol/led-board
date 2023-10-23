@@ -65,7 +65,7 @@ if (!["none", "routeOnce", "routeHeadingOnce", "routeOnceFill", "routeHeadingOnc
 parameters.limit = (parameters.limit.length === 0) ? PARAMETERS.limit : Math.min(Math.max(parameters.limit, 0), 6); // Clamp number of displayed lines
 parameters.minutesAfter = (parameters.minutesAfter) ? PARAMETERS.minutesAfter : Math.min(Math.max(parameters.minutesAfter, 0), 1440); // Clamp minutesAfter
 parameters.displayWidth = (!Number.isInteger(Number.parseInt(parameters.displayWidth))) ? PARAMETERS.displayWidth : Math.min(Math.max(parameters.displayWidth, 370), 384);
-if (!/^[a-zA-Z0-9_-]$/.test(parameters.preset)) parameters.preset = PARAMETERS.preset;
+if (/^[a-zA-Z0-9_-]$/.test(parameters.preset)) parameters.preset = PARAMETERS.preset;
 
 // Copy the desired number of rows to CSS
 document.documentElement.style.setProperty('--displayed-rows', parameters.limit);
