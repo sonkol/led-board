@@ -37,6 +37,7 @@ const PARAMETERS = {
   "limit": 5,
   "skip": "atStop",
   "minutesAfter": 99,
+  "displayWidth" : 384,
   "preset" : undefined
 }
 
@@ -63,11 +64,17 @@ if (!/^[1-9][0-9]{0,4}(_\d{1,3})?$/.test(parameters.aswIds)) parameters.aswIds =
 if (!["none", "routeOnce", "routeHeadingOnce", "routeOnceFill", "routeHeadingOnceFill", "routeHeadingOnceNoGap", "routeHeadingOnceNoGapFill"].includes(parameters.filter)) parameters.filter = PARAMETERS.filter;
 parameters.limit = (parameters.limit.length === 0) ? PARAMETERS.limit : Math.min(Math.max(parameters.limit, 0), 6); // Clamp number of displayed lines
 parameters.minutesAfter = (parameters.minutesAfter) ? PARAMETERS.minutesAfter : Math.min(Math.max(parameters.minutesAfter, 0), 1440); // Clamp minutesAfter
+parameters.displayWidth = (!Number.isInteger(Number.parseInt(parameters.displayWidth))) ? PARAMETERS.displayWidth : Math.min(Math.max(parameters.displayWidth, 370), 384);
 if (!/^[a-zA-Z0-9_-]$/.test(parameters.preset)) parameters.preset = PARAMETERS.preset;
 
 // Copy the desired number of rows to CSS
 document.documentElement.style.setProperty('--displayed-rows', parameters.limit);
 document.getElementsByTagName("body")[0].classList.add("fontsize" + parameters.limit);
+
+// Copy the display width to CSS
+if (parameters.displayWidth !== PARAMETERS.displayWidth) {
+  document.documentElement.style.setProperty('--total-width', parameters.displayWidth + "px");
+}
 
 // Construct query string
 const queryString = new URLSearchParams(parameters);
