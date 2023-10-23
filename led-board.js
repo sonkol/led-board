@@ -41,7 +41,7 @@ const PARAMETERS = {
 }
 
 // Make a copy of parameters which can be edited
-let parameters = PARAMETERS;
+let parameters = structuredClone(PARAMETERS);
 
 // Lock it so no unauthorized values cannot be added
 Object.seal(parameters);
