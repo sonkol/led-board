@@ -2,6 +2,7 @@
 // Constant definitions
 const SETTINGS = {
   "animationSpeed" : 200, // Speed of marqee in some arbitrary units
+  "offlineLimit" : 90, // After this count of seconds without refresh, display error message
   "prefix": "https://api.golemio.cz/v2/pid/departureboards/?", // General purpose URL
   "preset" : "https://s.golemio.cz/pid/", // URL for presets
   "httpTimeout": 20,
@@ -106,13 +107,7 @@ function getData(queryString) {
           case 200:
             // Reset counter when connection successful and remove offline message
             settings.offline = 0;
-            // TODO Get absolute time of connection acquistion to know data age
-            // TODO settings.lastConnectionTime = data.currentTime;
-            // TODO $("#offline").removeAttr("style");
             data = JSON.parse(this.responseText);
-
-            // If data succesfully arrived, replace the local time (which could be incorrect) with server time
-            // TODO data.currentTime = luxon.DateTime.fromHTTP(httpRequest.getResponseHeader("date")).setLocale("cs").setZone(SETTINGS.preferredTimeZone);
             updateContent(data);
             break;
           case 400: // Malformed query
@@ -501,7 +496,11 @@ const getDataTimer = setInterval(function () {
 }, 20000);
 
 
-// Timer for clock update 1 s
+// Timer for clock update 1 s and off-line evaluation
 const updateClockTimer = setInterval(function () {
   updateClock();
+  settings.offline++;
+  if (settings.offline > SETTINGS.offlineLimit) {
+    fullScreenMessage(STRINGS.offlineText);
+  }
 }, 1000);
