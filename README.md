@@ -12,8 +12,10 @@ Tabule podporuje níže popsanou podmnožinu parametrů, které se zapisují do 
 |--------------|------------------|-------------------------------------------------------------------------------------------------------------------------|
 |`airCondition`|`true`            | Zapíná indikaci klimatizace                                                                                             |
 |`aswIds`      |`539_1`           | Zobrazovaná zastávka dle číselníku ASW. Výchozí je Národní třída.                                                       |
+|`displayWidth`|`384`             | Nastaví šířku obrazovky. Platné hodnoty mezi `370`–`384` px                                                             |
+|`preset`      |                  | Kód přednastavené zastávky                                                                                              |
 |`filter`      |`routeHeadingOnce`| Filtruje zobrazení linek                                                                                                |
-|`limit`       |`5`               | Počet zobrazených odjezdů. Pro zobrazení většího počtu odjezdů je potřeba zmenšit písmo, jinak se nevejde na obrazovku. |
+|`limit`       |`5`               | Počet zobrazených odjezdů. Velikost písma se přispůsobí. Platné hodnoty `0`-`6`.                                         |
 |`skip`        |`atStop`          | Nebude zobrazovat spoje hlásící se v zastávce                                                                           |
 |`minutesAfter`|`99`              | Omezí zobrazení odjezdů do počtu minut                                                                                  |
 
@@ -28,7 +30,7 @@ Podpora je hotová pro
 * Čtení pro nevidomé
 * Dynamické zvětšování textu na základě počtu řádků
 * Přidat automaticky kód stanoviště v případě více ID
+* Přednastavené zastávky
 
 Zatím není podporováno:
 * Zobrazení celoplošného střídavého informačního textu
-* Přednastavené zastávky
