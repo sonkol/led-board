@@ -12,6 +12,7 @@ Tabule podporuje níže popsanou podmnožinu parametrů, které se zapisují do 
 |--------------|------------------|-------------------------------------------------------------------------------------------------------------------------|
 |`airCondition`|`true`            | Zapíná indikaci klimatizace                                                                                             |
 |`aswIds`      |`539_1`           | Zobrazovaná zastávka dle číselníku ASW. Výchozí je Národní třída.                                                       |
+|`displayWidth`|`384`             | Nastaví šířku obrazovky. Platné hodnoty mezi `370`–`384` px                                                             |
 |`filter`      |`routeHeadingOnce`| Filtruje zobrazení linek                                                                                                |
 |`limit`       |`5`               | Počet zobrazených odjezdů. Pro zobrazení většího počtu odjezdů je potřeba zmenšit písmo, jinak se nevejde na obrazovku. |
 |`skip`        |`atStop`          | Nebude zobrazovat spoje hlásící se v zastávce                                                                           |
