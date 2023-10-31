@@ -22,7 +22,6 @@ const STRINGS = {
 let settings = {
   "showPlatformNumbers": false,
   "offline": 0,
-  "lastConnectionTime": undefined,
   "reading": false,
   "infotextContent": undefined
 }
@@ -120,7 +119,7 @@ function getData(queryString) {
             fullScreenMessage(STRINGS.http404Message);
             break;
           case 0:
-            fullScreenMessage(STRINGS.offlineText);
+            if (settings.offline > SETTINGS.offlineLimit) fullScreenMessage(STRINGS.offlineText);
             break;
           default:
             fullScreenMessage(STRINGS.offlineText);
