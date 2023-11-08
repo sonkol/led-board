@@ -462,17 +462,20 @@ async function readOutLoud(sentences) {
 function updateClock() {
   // Date Úterý 19. 01. 2038
   const now = new Date();
+  function padNumber(number){
+    return number.toString().padStart(2,"0");
+  }
   const date = STRINGS.dayOfWeek[now.getDay()] +
     "&ensp;" +
-    now.getDate().toString().padStart(2, "0") +
+    padNumber(now.getDate()) +
     ".&thinsp;" +
-    (now.getMonth() + 1).toString().padStart(2, "0") +
+    padNumber(now.getMonth() + 1) +
     ".&thinsp;" +
-    now.getFullYear().toString().padStart(2, "0");
+    padNumber(now.getFullYear());
 
   // Time 03:14
-  const hours = now.getHours().toString().padStart(2, "0");
-  const minutes = now.getMinutes().toString().padStart(2, "0");
+  const hours = padNumber(now.getHours());
+  const minutes = padNumber(now.getMinutes());
   document.getElementById("date").innerHTML = date;
   document.getElementById("hours").textContent = hours;
   document.getElementById("minutes").textContent = minutes;
