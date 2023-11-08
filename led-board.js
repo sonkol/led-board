@@ -172,16 +172,12 @@ function printDepartureRow(row, body){
 
   const accessible = document.createElement("div");
   accessible.classList.add("accessible");
-  if (row.trip.is_wheelchair_accessible) {
-    accessible.classList.add("true");
-  }
+  if (row.trip.is_wheelchair_accessible) accessible.classList.add("true");
   body.appendChild(accessible);
 
   const airCondition = document.createElement("div");
   airCondition.classList.add("aircondition");
-  if (row.trip.is_air_conditioned) {
-    airCondition.classList.add("true");
-  }
+  if (row.trip.is_air_conditioned) airCondition.classList.add("true");
   body.appendChild(airCondition);
 
   const headsign = document.createElement("div");
@@ -245,20 +241,24 @@ function processInfoTexts(data) {
   const infotextBar = document.getElementById("infotext");
   const dateBar = document.getElementById("date");
   if (inline) {
+
     // Non-overflowing (short) information text is static
     infotextBar.innerHTML = infotexts.inline.join(STRINGS.infotextJoiner);
     infotextBar.style.display = "flex";
     dateBar.style.display = "none";
     if (infotextBar.scrollWidth > infotextBar.clientWidth) {
+
       // If text overflows it will be animated
       infotextBar.classList.add("marquee");
       infotextBar.textContent = "";
       const infotextcontent = document.createElement("div");
       infotextcontent.classList.add("infotextcontent");
       infotextcontent.textContent = infotexts.inline.join(STRINGS.infotextJoiner);
+
       // The element has to be doubled to animate seamlessly
       infotextBar.appendChild(infotextcontent);
       infotextBar.appendChild(infotextcontent.cloneNode(true));
+
       /* The marquee animation is defined by its duration. To make the speed of text indpenendent of
       its length, duration has to be recalculated for every text. */
       const marqueeDuration = infotextBar.scrollWidth/SETTINGS.animationSpeed;
@@ -437,17 +437,20 @@ function endRead() {
 async function readOutLoud(sentences) {
   // Do not read if other reading is in progress
   if (settings.reading && !window.speechSynthesis.paused || window.speechSynthesis.pending) return false;
+  
   // If starting from a paused state, free the speech queue so we can start again
   if (window.speechSynthesis.paused) window.speechSynthesis.cancel();
   settings.reading = true;
   const say = new SpeechSynthesisUtterance(sentences);
   say.lang = "cs-CZ";
   say.rate = SETTINGS.speechSpeed;
+
   // Speak the texts with intro and outro chimes
   await playChime("start");
   window.speechSynthesis.speak(say);
   say.onend = function () { endRead() };
   say.oncancel = function () { endRead() };
+  
   /* TTS template
    <gong>
    Zastávka <StopName>.
@@ -466,6 +469,7 @@ function updateClock() {
     (now.getMonth() + 1).toString().padStart(2, "0") +
     ".&thinsp;" +
     now.getFullYear().toString().padStart(2, "0");
+
   // Time 03:14
   const hours = now.getHours().toString().padStart(2, "0");
   const minutes = now.getMinutes().toString().padStart(2, "0");
