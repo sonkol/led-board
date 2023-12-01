@@ -118,6 +118,7 @@ img {
   display: flex;
   justify-content: space-between;
   height: var(--row-height) ;
+  padding-left: 8px;
 }
 
 #colon {
