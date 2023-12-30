@@ -34,10 +34,10 @@ const PARAMETERS = {
   "airCondition": true,
   "aswIds": "539_1",
   "filter": "routeHeadingOnce",
-  "limit": 5,
+  "limit": 5, // Number of lines: 1-6
   "skip": "atStop",
-  "minutesAfter": 99,
-  "displayWidth": 384,
+  "minutesAfter": 99,  // Minutes in the future to display departures: 0-1440
+  "displayWidth": 384, // Width of the LED matrix in px: 370-384
   "preset": undefined
 }
 
