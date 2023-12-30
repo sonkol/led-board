@@ -163,8 +163,6 @@ function updateContent(data) {
 }
 
 function printDepartureRow(row, body){
-  const departure = document.createElement("div");
-
   const route = document.createElement("div");
   route.classList.add("route");
   route.textContent = row.route.short_name;
