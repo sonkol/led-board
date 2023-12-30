@@ -5,7 +5,7 @@ const SETTINGS = {
   "offlineLimit": 90, // After this count of seconds without refresh, display error message
   "prefix": "https://api.golemio.cz/v2/pid/departureboards/?", // General purpose URL
   "preset": "https://s.golemio.cz/pid/", // URL for presets
-  "httpTimeout": 20,
+  "httpTimeout": 20, // seconds
   "speechSpeed": 1 // Speed of speech (default is 1)
 }
 
@@ -20,16 +20,16 @@ const STRINGS = {
 
 // Settings that can be changed and general variables
 let settings = {
-  "showPlatformNumbers": false,
+  "showPlatformNumbers": false, // User selectable setting to enforce platform numbers
   "offline": 0,
-  "reading": false,
+  "reading": false, // Is text-to-speech reading underway?
   "infotextContent": undefined
 }
 
 // Data from API will go here
 let data = "";
 
-// Default settings of URL parameters
+// Default settings of URL parameters, are relevant to Golemio API parameters
 const PARAMETERS = {
   "airCondition": true,
   "aswIds": "539_1",
@@ -47,7 +47,7 @@ let parameters = structuredClone(PARAMETERS);
 // Lock it so no unauthorized values cannot be added
 Object.seal(parameters);
 
-// Get URL parameters
+// Get parameters from the URL
 let searchString = new URLSearchParams(document.location.search);
 for (const [key, value] of searchString) {
   try {
@@ -152,6 +152,7 @@ function updateContent(data) {
   // Show platform numbers when there is more than one stop to display
   settings.showPlatformNumbers = (uniqueStops.size > 1) ? true : false;
 
+  // Start placing departures into the table
   const body = document.getElementsByTagName("main")[0];
   body.replaceChildren();
   let counter = 1;
@@ -305,6 +306,7 @@ function mixedNumberToWords(inputString) {
   const separateLettersNumbers = new RegExp(/\p{L}+|\p{N}+/ug);
   let output = [];
   const block = inputString.match(separateLettersNumbers);
+  // Short uppercase sequences are read as single letters
   block.forEach((item) => {
     if (/^\p{Lu}{1,2}$/ug.test(item)) {
       item.split("").forEach(
@@ -337,7 +339,7 @@ function digitsToWords(number) {
 }
 
 // Numeric keys will trigger reading identically to VPN (remote control for visually impaired)
-// Onyl keys 1,5,6 are handled
+// Only keys 1,5,6 are handled
 document.addEventListener("keydown", function (event) {
   // Reset pause button inactivity timer
   if (settings.inactivityTimer > 0) clearTimeout(settings.inactivityTimer);
@@ -366,7 +368,7 @@ document.addEventListener("keydown", function (event) {
   }
 });
 
-// Read header in form Stop Name + platform name. Does not sound well for many platforms
+// Read header in form Stop Name + platform name. Does not sound well for stops with many platforms
 function prepareReadOutHeader(data) {
   let uniquePlatforms = new Set();
   for (const stop of data.stops) {
@@ -391,7 +393,7 @@ function prepareReadOutDepartures(data) {
   }
 
   // GTFS transport mode translation table
-  const transportMode = ["Tramvaj", "Metro", "Vlak", "Autobus", "Přívoz", , "Visutá lanovka", "Lanovka", , "Trolejbus"];
+  const transportMode = ["Tramvaj", "Metro", "Vlak", "Autobus", "Přívoz", "Lanovka", "Visutá lanovka", "Lanovka", ,"Trolejbus"];
 
   // Prepare infotext
   if (data.infotexts.length > 0) {
