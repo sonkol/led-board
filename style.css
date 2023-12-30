@@ -28,6 +28,8 @@ body {
   font-variant-numeric: tabular-nums;
   /* transform: scale(9.43); /* Tímto se zapíná zvětšení na 1:1 při zobrazení na 96 dpi monitoru) */
   transform-origin: top left;
+  box-sizing: border-box;
+  padding-left: 12px; /* Solves the problem of black mask overlapping the display. */
 }
 
 main {
@@ -119,7 +121,6 @@ img {
   display: flex;
   justify-content: space-between;
   height: var(--row-height) ;
-  padding-left: 12px;
 }
 
 #colon {
