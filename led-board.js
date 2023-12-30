@@ -167,6 +167,10 @@ function printDepartureRow(row, body){
   route.classList.add("route");
   route.textContent = row.route.short_name;
   body.appendChild(route);
+  /* Shrinks route number if overflows */
+  if (route.scrollWidth > route.clientWidth){
+    route.style.fontSize = route.clientWidth / route.scrollWidth * 100 + "%";
+  }
 
   const accessible = document.createElement("div");
   accessible.classList.add("accessible");

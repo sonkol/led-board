@@ -59,6 +59,7 @@ main:has(#fullscreen-text-content) {
 .route {
   text-align: right;
   grid-column: 1;
+  white-space: nowrap;
 }
 
 .accessible {
