@@ -54,8 +54,8 @@ main:has(#fullscreen-text-content) {
   align-self: center;
 }
 
-#fullscreen-text-content > p {
-  margin: 0px 0; 
+#fullscreen-text-content>p {
+  margin: 0 0;
 }
 
 .route {
@@ -76,7 +76,8 @@ main:has(#fullscreen-text-content) {
   grid-column: 3;
 }
 
-.accessible.true, .aircondition.true {
+.accessible.true,
+.aircondition.true {
   background-repeat: no-repeat;
   background-position: center 40%;
 }
@@ -91,7 +92,8 @@ main:has(#fullscreen-text-content) {
   background-size: 11px 11px;
 }
 
-body.fontsize4 .accessible.true, body.fontsize4 .aircondition.true {
+body.fontsize4 .accessible.true,
+body.fontsize4 .aircondition.true {
   background-position-y: center;
 }
 
@@ -120,7 +122,7 @@ img {
 #datetime {
   display: flex;
   justify-content: space-between;
-  height: var(--row-height) ;
+  height: var(--row-height);
 }
 
 #colon {
@@ -128,7 +130,7 @@ img {
   animation-duration: 1s;
   animation-direction: alternate-reverse;
   animation-iteration-count: infinite;
-  animation-timing-function: steps(2,jump-none)
+  animation-timing-function: steps(2, jump-none);
 }
 
 #infotext {
@@ -168,13 +170,17 @@ img {
   from {
     transform: translateX(0);
   }
+
   to {
     transform: translateX(calc(-100% - var(--gap)));
   }
 }
 
 /* Napevno předdefinované velikosti písma dle počtu řádků. Při změně fontu bude potřeba překonfigurovat */
-.fontsize1, .fontsize2, .fontsize3, .fontsize4 {
+.fontsize1,
+.fontsize2,
+.fontsize3,
+.fontsize4 {
   font-size: 21px;
 }
 
@@ -190,6 +196,7 @@ img {
   from {
     color: white;
   }
+
   to {
     color: #222;
   }
