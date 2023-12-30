@@ -374,7 +374,7 @@ function prepareReadOutHeader(data) {
   for (const stop of data.stops) {
     uniquePlatforms.add(mixedNumberToWords(stop.platform_code));
   }
-  return data.stops[0].stop_name + " stanoviště " + [...uniquePlatforms].join("– a");
+  return data.stops[0].stop_name + " stanoviště " + [...uniquePlatforms].join("– a ");
 }
 
 function prepareReadOutDepartures(data) {
@@ -393,7 +393,7 @@ function prepareReadOutDepartures(data) {
   }
 
   // GTFS transport mode translation table
-  const transportMode = ["Tramvaj", "Metro", "Vlak", "Autobus", "Přívoz", "Lanovka", "Visutá lanovka", "Lanovka", ,"Trolejbus"];
+  const transportMode = ["Tramvaj", "Metro", "Vlak", "Autobus", "Přívoz", "Lanovka", "Visutá lanovka", "Lanovka",,,, "Trolejbus"];
 
   // Prepare infotext
   if (data.infotexts.length > 0) {
