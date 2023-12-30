@@ -10,7 +10,7 @@ const SETTINGS = {
 }
 
 const STRINGS = {
-  "infotextJoiner" : " • ", // String with which to join information texts 
+  "marqueeJoiner" : " • ", // String with which to join information texts 
   "dayOfWeek": ["Neděle", "Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek", "Sobota"], // Dictionary of week days
   "http400Message" : "Chybný dotaz.<br>Nechybí ID zastávky?",
   "http401Message" : "Problém s API klíčem<br>Nesprávný nebo chybějící API klíč. Pro získání API klíče se zaregistrujte u Golemia.",
@@ -181,12 +181,7 @@ function printDepartureRow(row, body){
   airCondition.classList.add("aircondition");
   if (row.trip.is_air_conditioned) airCondition.classList.add("true");
   body.appendChild(airCondition);
-
-  const headsign = document.createElement("div");
-  headsign.classList.add("headsign");
-  headsign.textContent = prettyPrint(row.trip.headsign);
-  body.appendChild(headsign);
-
+  
   if (settings.showPlatformNumbers) {
     const platform = document.createElement("div");
     platform.classList.add("platform");
@@ -198,6 +193,17 @@ function printDepartureRow(row, body){
   arrival.classList.add("arrival");
   arrival.textContent = row.departure_timestamp.minutes;
   body.appendChild(arrival);
+
+  /* Headsign is inserted last because we need to know the width of its field */
+  const headsign = document.createElement("div");
+  headsign.classList.add("headsign");
+  row.trip.headsign = row.trip.headsign;
+  headsign.textContent = prettyPrint(row.trip.headsign);
+  body.insertBefore(headsign, airCondition.nextSibling);
+  /* Shrinks destination stop name if overflows */
+  if (headsign.scrollWidth > headsign.clientWidth) {
+    headsign.style.fontSize = headsign.clientWidth / headsign.scrollWidth * 100 + "%";
+  }
 }
 
 function processInfoTexts(data) {
@@ -245,26 +251,11 @@ function processInfoTexts(data) {
   if (inline) {
 
     // Non-overflowing (short) information text is static
-    infotextBar.innerHTML = infotexts.inline.join(STRINGS.infotextJoiner);
+    infotextBar.innerHTML = infotexts.inline.join(STRINGS.marqueeJoiner);
     infotextBar.style.display = "flex";
     dateBar.style.display = "none";
     if (infotextBar.scrollWidth > infotextBar.clientWidth) {
-
-      // If text overflows it will be animated
-      infotextBar.classList.add("marquee");
-      infotextBar.textContent = "";
-      const infotextcontent = document.createElement("div");
-      infotextcontent.classList.add("infotextcontent");
-      infotextcontent.textContent = infotexts.inline.join(STRINGS.infotextJoiner);
-
-      // The element has to be doubled to animate seamlessly
-      infotextBar.appendChild(infotextcontent);
-      infotextBar.appendChild(infotextcontent.cloneNode(true));
-
-      /* The marquee animation is defined by its duration. To make the speed of text indpenendent of
-      its length, duration has to be recalculated for every text. */
-      const marqueeDuration = infotextBar.scrollWidth/SETTINGS.animationSpeed;
-      document.documentElement.style.setProperty('--marquee-duration', marqueeDuration+"s");
+      makeMarquee(infotextBar, infotexts.inline.join(STRINGS.marqueeJoiner));
     }
   }
   else {
@@ -276,13 +267,31 @@ function processInfoTexts(data) {
   // Full screen messages
   if (general || general_alternate) {
     settings.infotextGeneral = true;
-    fullScreenMessage(infotexts.general.join(STRINGS.infotextJoiner));
+    fullScreenMessage(infotexts.general.join(STRINGS.marqueeJoiner));
   }
   else {
     settings.infotextGeneral = false;
   }
 
   return general === true;
+}
+
+function makeMarquee(element, content) {
+      // If text overflows, it will be animated
+      element.classList.add("marquee");
+      element.textContent = "";
+      const marqueeContent = document.createElement("div");
+      marqueeContent.classList.add("marqueeContent");
+      marqueeContent.textContent = content;
+
+      // The element has to be doubled to animate seamlessly
+      element.appendChild(marqueeContent);
+      element.appendChild(marqueeContent.cloneNode(true));
+
+      /* The marquee animation is defined by its duration. To make the speed of text indpenendent of
+      its length, duration has to be recalculated for every text. */
+      const marqueeDuration = element.scrollWidth/SETTINGS.animationSpeed;
+      document.documentElement.style.setProperty("--marquee-duration", marqueeDuration+"s");
 }
 
 // Text to speech

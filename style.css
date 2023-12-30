@@ -96,9 +96,9 @@ body.fontsize4 .accessible.true, body.fontsize4 .aircondition.true {
 }
 
 .headsign {
-  text-overflow: ellipsis;
   overflow: hidden;
   grid-column: 4;
+  white-space: nowrap;
 }
 
 .platform {
@@ -148,7 +148,7 @@ img {
   gap: var(--gap);
 }
 
-.infotextcontent {
+.marqueeContent {
   flex-shrink: 0;
   display: flex;
   justify-content: space-around;
@@ -160,7 +160,7 @@ img {
   animation-iteration-count: infinite;
 }
 
-.infotextcontent:after {
+.marqueeContent:after {
   content: "•";
 }
 
