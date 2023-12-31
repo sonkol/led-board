@@ -138,10 +138,8 @@ function getData(queryString) {
 function updateContent(data) {
 
   // Process information texts. If a full page infotext is present, do not render departures
-  if (data.infotexts.length > 0) {
-    const isGlobalInfotext = processInfoTexts(data.infotexts);
-    if (isGlobalInfotext) return;
-  }
+  const isGlobalInfotext = processInfoTexts(data.infotexts);
+  if (isGlobalInfotext) return;
 
   // If multiple stops are to be displayed, show column with platform numbers
   const uniqueStops = new Set();
