@@ -3,7 +3,8 @@
   --total-height: 128px;
   --total-width: 384px;
   --row-height: var(--total-height) / (var(--displayed-rows) + 1);
-  --marquee-duration: 10s;
+  --marquee-duration-horizontal: 10s;
+  --marquee-duration-vertical: 10s;
 }
 
 @font-face {
@@ -150,29 +151,54 @@ img {
   gap: var(--gap);
 }
 
-.marqueeContent {
+.marquee:has(.marqueeContentVertical) {
+  flex-direction: column;
+}
+
+.marqueeContentHorizontal {
   flex-shrink: 0;
   display: flex;
   justify-content: space-around;
   gap: var(--gap);
   min-width: 100%;
-  animation-name: scroll;
-  animation-duration: var(--marquee-duration);
+  animation-name: scrollX;
+  animation-duration: var(--marquee-duration-horizontal);
   animation-timing-function: linear;
   animation-iteration-count: infinite;
 }
 
-.marqueeContent:after {
+.marqueeContentHorizontal:after {
   content: "•";
 }
 
-@keyframes scroll {
+.marqueeContentVertical {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-around;
+  min-height: 100%;
+  animation-name: scrollY;
+  animation-duration: var(--marquee-duration-vertical);
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes scrollX {
   from {
-    transform: translateX(0);
+    transform: translateX(0%);
   }
 
   to {
     transform: translateX(calc(-100% - var(--gap)));
+  }
+}
+
+@keyframes scrollY {
+  from {
+    transform: translateY(50%);
+  }
+
+  to {
+    transform: translateY(calc(-50% - var(--gap)));
   }
 }
 

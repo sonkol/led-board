@@ -1,7 +1,7 @@
 "use strict";
 // Constant definitions
 const SETTINGS = {
-  "animationSpeed": 200, // Speed of marqee in some arbitrary units
+  "animationSpeed": 100, // Speed of marqee in some arbitrary units
   "offlineLimit": 90, // After this count of seconds without refresh, display error message
   "prefix": "https://api.golemio.cz/v2/pid/departureboards/?", // General purpose URL
   "preset": "https://s.golemio.cz/pid/", // URL for presets
@@ -269,6 +269,11 @@ function processInfoTexts(data) {
   if (general || general_alternate) {
     settings.infotextGeneral = true;
     fullScreenMessage(infotexts.general.join(STRINGS.marqueeJoiner));
+
+    const fullScreenInfotext = document.getElementById("fullscreen-text-content");
+    if (fullScreenInfotext.scrollHeight > document.getElementById("main").clientHeight) {
+      makeMarquee(fullScreenInfotext, infotexts.general.join(STRINGS.marqueeJoiner), "vertical");
+    }
   }
   else {
     settings.infotextGeneral = false;
@@ -277,13 +282,21 @@ function processInfoTexts(data) {
   return general === true;
 }
 
-function makeMarquee(element, content) {
+function makeMarquee(element, content, direction = "horizontal") {
   // If text overflows, it will be animated
   element.classList.add("marquee");
   element.textContent = "";
   const marqueeContent = document.createElement("div");
-  marqueeContent.classList.add("marqueeContent");
+  
   marqueeContent.textContent = content;
+
+  /* Assign direction of animation */
+  if (direction === "vertical") {
+    marqueeContent.classList.add("marqueeContentVertical");
+  }
+  else {
+    marqueeContent.classList.add("marqueeContentHorizontal");
+  }
 
   // The element has to be doubled to animate seamlessly
   element.appendChild(marqueeContent);
@@ -291,8 +304,14 @@ function makeMarquee(element, content) {
 
   /* The marquee animation is defined by its duration. To make the speed of text indpenendent of
   its length, duration has to be recalculated for every text. */
-  const marqueeDuration = element.scrollWidth / SETTINGS.animationSpeed;
-  document.documentElement.style.setProperty("--marquee-duration", marqueeDuration + "s");
+  if (direction === "vertical") {
+    const marqueeDurationVertical = element.scrollHeight / SETTINGS.animationSpeed;
+    document.documentElement.style.setProperty("--marquee-duration-vertical", marqueeDurationVertical * 4 + "s");
+  }
+  else {
+    const marqueeDurationHorizontal = marqueeContent.scrollWidth / SETTINGS.animationSpeed;
+    document.documentElement.style.setProperty("--marquee-duration-horizontal", marqueeDurationHorizontal + "s");
+  }
 }
 
 // Text to speech
