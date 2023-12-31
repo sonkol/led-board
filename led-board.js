@@ -18,10 +18,10 @@ const STRINGS = {
   "offlineText": "<p>Omlouváme se, zařízení je dočasně mimo provoz</p><p>Aktuální odjezdy spojů naleznete na webu pid.cz/odjezdy</p>",
 }
 
-// Settings that can be changed and general variables
+// Here belong program relevant settings and general variables
 let settings = {
-  "showPlatformNumbers": false, // User selectable setting to enforce platform numbers
-  "offline": 0,
+  "showPlatformNumbers": false,
+  "offlineCounter": 0,
   "reading": false, // Is text-to-speech reading underway?
   "infotextContent": undefined
 }
@@ -105,7 +105,7 @@ function getData(queryString) {
         switch (httpRequest.status) {
           case 200:
             // Reset counter when connection successful and remove offline message
-            settings.offline = 0;
+            settings.offlineCounter = 0;
             data = JSON.parse(this.responseText);
             updateContent(data);
             break;
@@ -119,7 +119,7 @@ function getData(queryString) {
             fullScreenMessage(STRINGS.http404Message);
             break;
           case 0:
-            if (settings.offline > SETTINGS.offlineLimit) fullScreenMessage(STRINGS.offlineText);
+            if (settings.offlineCounter > SETTINGS.offlineLimit) fullScreenMessage(STRINGS.offlineText);
             break;
           default:
             fullScreenMessage(STRINGS.offlineText);
@@ -518,8 +518,8 @@ const getDataTimer = setInterval(function () {
 // Timer for clock update 1 s and off-line evaluation
 const updateClockTimer = setInterval(function () {
   updateClock();
-  settings.offline++;
-  if (settings.offline > SETTINGS.offlineLimit) {
+  settings.offlineCounter++;
+  if (settings.offlineCounter > SETTINGS.offlineLimit) {
     fullScreenMessage(STRINGS.offlineText);
   }
 }, 1000);
