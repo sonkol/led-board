@@ -80,6 +80,7 @@ main:has(#fullscreen-text-content) {
 .aircondition.true {
   background-repeat: no-repeat;
   background-position: center 40%;
+  filter: brightness(0.95);
 }
 
 .accessible.true {
