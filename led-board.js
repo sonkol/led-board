@@ -210,9 +210,8 @@ function printDepartureRow(row, body) {
 }
 
 function processInfoTexts(data) {
-  let inline = false,          // These are switches 
-    general = false,           // that are used to check 
-    general_alternate = false, // what type of board is active
+  let inline = false,          // These switches check  
+    general = false,           // what type of board is active
     referenceString = "";
 
   // Here the strings will be stored   
@@ -231,8 +230,6 @@ function processInfoTexts(data) {
     else {
       if (text.text) infotexts.general.push(text.text.trim());
       if (text.text_en) infotexts.general.push(text.text_en.trim());
-      // Selects the correct display mode TODO support for alternate
-      (text.display_type === "general-alternate") ? general_alternate = true : general = true;
     }
 
     // This will be used to compare if infotexts from previous refresh changed
@@ -268,7 +265,7 @@ function processInfoTexts(data) {
   }
 
   // Full screen messages
-  if (general || general_alternate) {
+  if (general) {
     settings.infotextGeneral = true;
     fullScreenMessage(infotexts.general.join(STRINGS.marqueeJoiner));
 
