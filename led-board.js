@@ -230,6 +230,7 @@ function processInfoTexts(data) {
     else {
       if (text.text) infotexts.general.push(text.text.trim());
       if (text.text_en) infotexts.general.push(text.text_en.trim());
+      general = true;
     }
 
     // This will be used to compare if infotexts from previous refresh changed
