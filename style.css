@@ -21,7 +21,7 @@ body {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-  padding: 0;
+  padding: 2px 12px 0px 2px;
   margin: 0;
   width: var(--total-width);
   height: var(--total-height);
@@ -30,7 +30,6 @@ body {
   /* transform: scale(9.43); /* Tímto se zapíná zvětšení na 1:1 při zobrazení na 96 dpi monitoru) */
   transform-origin: top left;
   box-sizing: border-box;
-  padding-left: 12px; /* Solves the problem of black mask overlapping the display. */
 }
 
 main {
@@ -124,6 +123,7 @@ img {
   display: flex;
   justify-content: space-between;
   height: var(--row-height);
+  line-height: 86%;
 }
 
 #colon {
