@@ -262,6 +262,7 @@ function processInfoTexts(data) {
     // Restore display to normal state
     infotextBar.style.display = "none";
     dateBar.style.display = "flex";
+    document.documentElement.style.removeProperty("--marquee-duration-horizontal");
   }
 
   // Full screen messages
