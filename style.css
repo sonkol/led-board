@@ -124,7 +124,7 @@ img {
   display: flex;
   justify-content: space-between;
   height: var(--row-height);
-  line-height: 86%;
+  margin-bottom: -2px; /* Compensate for too high baseline */
 }
 
 #colon {
