@@ -11,7 +11,7 @@ const SETTINGS = {
 
 const STRINGS = {
   "marqueeJoiner": " • ", // String with which to join information texts 
-  "dayOfWeek": ["Neděle", "Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek", "Sobota"], // Dictionary of week days
+  "dayOfWeek": ["neděle", "pondělí", "úterý", "středa", "čtvrtek", "pátek", "sobota"], // Dictionary of week days
   "http400Message": "Chybný dotaz.<br>Nechybí ID zastávky?",
   "http401Message": "Problém s API klíčem<br>Nesprávný nebo chybějící API klíč. Pro získání API klíče se zaregistrujte u Golemia.",
   "http404Message": "Zastávka je nyní bez provozu",
