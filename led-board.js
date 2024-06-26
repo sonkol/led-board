@@ -302,7 +302,7 @@ function makeMarquee(element, content, direction = "horizontal") {
   element.appendChild(marqueeContent);
   element.appendChild(marqueeContent.cloneNode(true));
 
-  /* The marquee animation is defined by its duration. To make the speed of text indpenendent of
+  /* The marquee animation is defined by its duration. To make the speed of text independent of
   its length, duration has to be recalculated for every text. */
   if (direction === "vertical") {
     const marqueeDurationVertical = element.scrollHeight / SETTINGS.animationSpeed;
