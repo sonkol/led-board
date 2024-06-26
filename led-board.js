@@ -16,8 +16,8 @@ const SETTINGS = {
 const STRINGS = {
   "marqueeJoiner": " • ", // String with which to join information texts 
   "dayOfWeek": ["neděle", "pondělí", "úterý", "středa", "čtvrtek", "pátek", "sobota"], // Dictionary of week days
-  "http400Message": "Chybný dotaz.<br>Nechybí ID zastávky?",
-  "http401Message": "Problém s API klíčem<br>Nesprávný nebo chybějící API klíč. Pro získání API klíče se zaregistrujte u Golemia.",
+  "http400Message": "<p>Omlouváme se, zařízení je dočasně mimo provoz</p><p>Aktuální odjezdy spojů naleznete na webu pid.cz/odjezdy</p>",
+  "http401Message": "<p>Omlouváme se, zařízení je dočasně mimo provoz</p><p>Aktuální odjezdy spojů naleznete na webu pid.cz/odjezdy</p>",
   "http404Message": "Zastávka je nyní bez provozu",
   "offlineText": "<p>Omlouváme se, zařízení je dočasně mimo provoz</p><p>Aktuální odjezdy spojů naleznete na webu pid.cz/odjezdy</p>",
 }
