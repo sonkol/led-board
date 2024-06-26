@@ -139,13 +139,13 @@ function updateContent(data) {
   const isGlobalInfotext = processInfoTexts(data.infotexts);
   if (isGlobalInfotext) return;
 
-  // If multiple stops are to be displayed, show column with platform numbers
+  // If multiple stops are to be displayed, platform numbers will be shown. First get the number of stops
   const uniqueStops = new Set();
   data.stops.forEach((stop) => {
     uniqueStops.add(stop.asw_id.node + "/" + stop.asw_id.stop);
   });
 
-  // Show platform numbers when there is more than one stop to display
+  // Then print the platform numbers when more then one stop to display
   settings.showPlatformNumbers = (uniqueStops.size > 1) ? true : false;
   
   // Set the mumber of rows according to the content if using preset, within prescribed bounds
