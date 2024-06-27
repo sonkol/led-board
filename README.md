@@ -24,7 +24,7 @@ Příklad výchozí URL se všemi parametry: `index.html?airCondition=true&aswId
 ## Funkce
 Aplikace je určená pro zobrazování tabulí na LED panelech, a proto podporuje jen potřebnou podmnožinu zobrazovacích funkcí. Aplikaci stačí spustit a sama se bude dotazovat na odjezdy. Aplikace se v případě pádu nebo aktualizace sama nenačte, to je věcí content managementu. 
 
-Tabule nepoužívá levých 12 sloupců diod, které jsou skryty za maskou. Tuto hodnotu je možné odstranit v style.css, položka body: padding-left.
+Tabule nepoužívá pravých 12 sloupců diod, které jsou skryty za maskou. Tato hodnota je nastavena ve style.css, položka body: padding.
 
 ### Automatické určování počtu řádků
 Tabule přizpůsobuje velikost textu počtu řádků. Tabule zobrazuje 4, 5 nebo 6 odjezdů a řádek s datem a časem.
@@ -44,3 +44,15 @@ Stisknutím tlačítka `Num1` se přečte název zastávky. Stisknutím tlačít
 Pokud tabule nezískala po stanovenou dobu data, zobrazí se zpráva, že tabule je mimo provoz.
 
 Pokud kód zastávky vrací HTTP 404 (buď zastávka skutečně neexistuje nebo existovala, a byl zrušen provoz), zobrazí se, že není naplánovaný žádný odjezd.
+
+## Soubory
+* accessible.webp – symbol přístupnosti pro nízkopodlažní spoje
+* end.mp3 – zvuk konce relace pro text-to-speech
+* index.html – hlavní stránka
+* key.js – soubor s API klíčem. Při používámní presetů není potřeba.
+* lato-regular.woff2 – písmo
+* led-board.js – skript, který oživuje stránku
+* README.md – tento soubor
+* snowflake.webp – symbol vločky pro klimatizované spoje
+* start.mp3 – zvuk začátku relace pro text-to-speech
+* style.css – stylopis
