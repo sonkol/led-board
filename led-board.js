@@ -149,7 +149,7 @@ function updateContent(data) {
   settings.showPlatformNumbers = (uniqueStops.size > 1) ? true : false;
   
   // Set the mumber of rows according to the content if using preset, within prescribed bounds
-  if (parameters.preset.length > 0) {
+  if (typeof parameters.preset !== "undefined") {
     parameters.limit = Math.min(Math.max(data.departures.length, SETTINGS.rowLimit.min), SETTINGS.rowLimit.max);
     updateFontSize();
   }
