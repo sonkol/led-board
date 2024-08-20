@@ -3,7 +3,7 @@
 const SETTINGS = {
   "animationSpeed": 100, // Speed of marqee in some arbitrary units
   "offlineLimit": 90, // After this count of seconds without refresh, display error message
-  "prefix": "https://api.golemio.cz/v2/pid/departureboards/?", // General purpose URL
+  "prefix": "https://api.golemio.cz/v2/pid/departureboards?", // General purpose URL
   "preset": "https://s.golemio.cz/pid/", // URL for presets
   "rowLimit": {
     "min": 4,
