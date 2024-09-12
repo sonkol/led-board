@@ -54,6 +54,9 @@ let parameters = structuredClone(PARAMETERS);
 // Lock it so no unauthorized values cannot be added
 Object.seal(parameters);
 
+// Clear hash in url
+history.replaceState("", document.title, window.location.pathname + window.location.search);
+
 // Get parameters from the URL
 let searchString = new URLSearchParams(document.location.search);
 for (const [key, value] of searchString) {
@@ -497,6 +500,10 @@ function endRead() {
 };
 
 async function readOutLoud(sentences) {
+  // Export the read out text to url to be grabbed by an external reader
+  window.location.hash = sentences;
+  return false;
+  /*
   // Do not read if other reading is in progress
   if (settings.reading && !window.speechSynthesis.paused || window.speechSynthesis.pending) return false;
 
