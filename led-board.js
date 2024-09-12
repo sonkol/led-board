@@ -14,7 +14,7 @@ const SETTINGS = {
 }
 
 const STRINGS = {
-  "marqueeJoiner": " • ", // String with which to join information texts 
+  "marqueeJoiner": "&emsp;•&emsp;", // String with which to join information texts 
   "dayOfWeek": ["neděle", "pondělí", "úterý", "středa", "čtvrtek", "pátek", "sobota"], // Dictionary of week days
   "http400Message": "<p>Omlouváme se, zařízení je dočasně mimo provoz</p><p>Aktuální odjezdy spojů naleznete na webu pid.cz/odjezdy</p>",
   "http401Message": "<p>Omlouváme se, zařízení je dočasně mimo provoz</p><p>Aktuální odjezdy spojů naleznete na webu pid.cz/odjezdy</p>",
@@ -36,14 +36,17 @@ let data = "";
 // Default settings of URL parameters, are relevant to Golemio API parameters
 const PARAMETERS = {
   "airCondition": true,
-  "aswIds": "539_1",
+  "aswIds": undefined,
   "filter": "routeHeadingOnce",
-  "limit": 5, // Number of lines: 1-6
+  "limit": 5, // Number of lines to display
   "skip": "atStop",
   "minutesAfter": 99,  // Minutes in the future to display departures: 0-1440
   "displayWidth": 384, // Width of the LED matrix in px: 370-384
   "preset": undefined
 }
+
+// These parameters are not part of the API and shall be removed from the URI
+const PARAMETERS_OUT_OF_API = ["displayWidth"];
 
 // Make a copy of parameters which can be edited
 let parameters = structuredClone(PARAMETERS);
@@ -66,7 +69,7 @@ for (const [key, value] of searchString) {
 if (!["true", "false"].includes(parameters.airCondition)) parameters.airCondition = PARAMETERS.airCondition;
 if (!/^[1-9][0-9]{0,4}(_\d{1,3})?$/.test(parameters.aswIds)) parameters.aswIds = PARAMETERS.aswIds;
 if (!["none", "routeOnce", "routeHeadingOnce", "routeOnceFill", "routeHeadingOnceFill", "routeHeadingOnceNoGap", "routeHeadingOnceNoGapFill"].includes(parameters.filter)) parameters.filter = PARAMETERS.filter;
-parameters.limit = (parameters.limit.length === 0) ? PARAMETERS.limit : Math.min(Math.max(parameters.limit, 0), 6); // Clamp number of displayed lines
+parameters.limit = (parameters.limit.length === 0) ? PARAMETERS.limit : Math.min(Math.max(parameters.limit, 0), 5); // Clamp number of displayed lines
 parameters.minutesAfter = (Number.isInteger(Number.parseInt(parameters.minutesAfter))) ? Math.min(Math.max(parameters.minutesAfter, 0), 1440) : PARAMETERS.minutesAfter; // Clamp minutesAfter
 parameters.displayWidth = (Number.isInteger(Number.parseInt(parameters.displayWidth))) ? Math.min(Math.max(parameters.displayWidth, 370), 384) : PARAMETERS.displayWidth;
 if (/^[a-zA-Z0-9_-]$/.test(parameters.preset)) parameters.preset = PARAMETERS.preset;
@@ -76,6 +79,11 @@ updateFontSize();
 
 // Construct query string
 const queryString = new URLSearchParams(parameters);
+
+//Remove parameters for local control
+for (const parameter of PARAMETERS_OUT_OF_API) {
+  queryString.delete(parameter);
+}
 
 // Fill table with content for the first time
 getData(queryString);
@@ -289,7 +297,7 @@ function makeMarquee(element, content, direction = "horizontal") {
   element.textContent = "";
   const marqueeContent = document.createElement("div");
   
-  marqueeContent.textContent = content;
+  marqueeContent.innerHTML = content;
 
   /* Assign direction of animation */
   if (direction === "vertical") {
@@ -514,9 +522,9 @@ function updateClock() {
   const date = STRINGS.dayOfWeek[now.getDay()] +
     "&ensp;" +
     padNumber(now.getDate()) +
-    ".&thinsp;" +
+    "." +
     padNumber(now.getMonth() + 1) +
-    ".&thinsp;" +
+    "." +
     padNumber(now.getFullYear());
 
   // Time 03:14
