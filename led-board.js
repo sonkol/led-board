@@ -339,7 +339,7 @@ function updateFontSize() {
 // Text to speech
 // Convert route numbers with letters to pronounced separate letters
 function mixedNumberToWords(inputString) {
-  if (inputString.length === 0) {
+  if (inputString === null || inputString.length === 0) {
     return "";
   }
 
@@ -413,9 +413,17 @@ document.addEventListener("keydown", function (event) {
 function prepareReadOutHeader(data) {
   let uniquePlatforms = new Set();
   for (const stop of data.stops) {
-    uniquePlatforms.add(mixedNumberToWords(stop.platform_code));
+    uniquePlatforms.add(stop.platform_code);
   }
-  return data.stops[0].stop_name + " stanoviště " + [...uniquePlatforms].join("– a ");
+
+  // Sort the platform codes, weed out nulls and convert them to words
+  const collator = new Intl.Collator(undefined, { numeric: true, sensitivity: "base" });
+  uniquePlatforms.delete(null);
+  uniquePlatforms = [...uniquePlatforms].sort(collator.compare);
+  uniquePlatforms = uniquePlatforms.map((platformCode) => mixedNumberToWords(platformCode));
+  
+  // The dash adds a short stop after each letter
+  return data.stops[0].stop_name + " stanoviště " + uniquePlatforms.join("– a ");
 }
 
 function prepareReadOutDepartures(data) {
