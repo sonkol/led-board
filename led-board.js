@@ -440,7 +440,7 @@ function prepareReadOutDepartures(data) {
   }
 
   // Shortcut if no departures available
-  if (data.departures.length === 0) {
+  if (data.departures.length === 0 && data.infotexts.length === 0) {
     sentences.push("V blízké době není naplánovaný žádný odjezd.");
   }
 
