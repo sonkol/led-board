@@ -95,12 +95,12 @@ main:has(#fullscreen-text-content) {
 }
 
 .accessible.true {
-  background-image: url(accessible.webp);
+  background-image: url(accessible.svg);
   background-size: 10px 11px;
 }
 
 .aircondition.true {
-  background-image: url(snowflake.webp);
+  background-image: url(snowflake.svg);
   background-size: 11px 11px;
 }
 
