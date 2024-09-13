@@ -395,6 +395,7 @@ document.addEventListener("keydown", function (event) {
 
 // Read header in form Stop Name + platform name. Does not sound well for stops with many platforms
 function prepareReadOutHeader(data) {
+  if (data.length === 0) return "Zařízení mimo provoz";
   let uniquePlatforms = new Set();
   for (const stop of data.stops) {
     uniquePlatforms.add(stop.platform_code);
@@ -416,7 +417,7 @@ function prepareReadOutDepartures(data) {
 
   // Fallback message when no data is received
   if (!data) {
-    sentences.push("Zastávka je nyní bez provozu");
+    sentences.push("Bohužel nyní nemám data o odjezdech");
     return sentences;
   }
 
