@@ -65,6 +65,8 @@ main:has(#fullscreen-text-content) {
 
 #main > div:not(#fullscreen-text-content) {
   height: 20px;
+  display: grid;
+  align-items: center;
 }
 
 .route {
@@ -88,7 +90,7 @@ main:has(#fullscreen-text-content) {
 .accessible.true,
 .aircondition.true {
   background-repeat: no-repeat;
-  background-position: center 40%;
+  background-position: center center;
   filter: brightness(0.95);
 }
 
