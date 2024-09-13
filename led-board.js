@@ -312,7 +312,7 @@ function makeMarquee(element, content, direction = "horizontal") {
   its length, duration has to be recalculated for every text. */
   if (direction === "vertical") {
     const marqueeDurationVertical = element.scrollHeight / SETTINGS.animationSpeed;
-    document.documentElement.style.setProperty("--marquee-duration-vertical", marqueeDurationVertical * 4 + "s");
+    document.documentElement.style.setProperty("--marquee-duration-vertical", marqueeDurationVertical * 2.5 + "s");
   }
   else {
     const marqueeDurationHorizontal = marqueeContent.scrollWidth / SETTINGS.animationSpeed;
