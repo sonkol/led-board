@@ -14,7 +14,10 @@ const SETTINGS = {
 }
 
 const STRINGS = {
-  "marqueeJoiner": "&emsp;•&emsp;", // String with which to join information texts 
+  "marqueeJoiner": { // String with which to join information texts
+    "inline" : "&emsp;•&emsp;",
+    "general" : "<br><br>",
+  }, 
   "dayOfWeek": ["neděle", "pondělí", "úterý", "středa", "čtvrtek", "pátek", "sobota"], // Dictionary of week days
   "http400Message": "<p>Omlouváme se, zařízení je dočasně mimo provoz</p><p>Aktuální odjezdy spojů naleznete na webu pid.cz/odjezdy</p>",
   "http401Message": "<p>Omlouváme se, zařízení je dočasně mimo provoz</p><p>Aktuální odjezdy spojů naleznete na webu pid.cz/odjezdy</p>",
@@ -254,11 +257,11 @@ function processInfoTexts(data) {
   if (inline) {
 
     // Non-overflowing (short) information text is static
-    infotextBar.innerHTML = infotexts.inline.join(STRINGS.marqueeJoiner);
+    infotextBar.innerHTML = infotexts.inline.join(STRINGS.marqueeJoiner.inline);
     infotextBar.style.display = "flex";
     dateBar.style.display = "none";
     if (infotextBar.scrollWidth > infotextBar.clientWidth) {
-      makeMarquee(infotextBar, infotexts.inline.join(STRINGS.marqueeJoiner));
+      makeMarquee(infotextBar, infotexts.inline.join(STRINGS.marqueeJoiner.inline));
     }
   }
   else {
@@ -271,11 +274,11 @@ function processInfoTexts(data) {
   // Full screen messages
   if (general) {
     settings.infotextGeneral = true;
-    fullScreenMessage(infotexts.general.join(STRINGS.marqueeJoiner));
+    fullScreenMessage(infotexts.general.join(STRINGS.marqueeJoiner.general));
 
     const fullScreenInfotext = document.getElementById("fullscreen-text-content");
     if (fullScreenInfotext.scrollHeight > document.getElementById("main").clientHeight) {
-      makeMarquee(fullScreenInfotext, infotexts.general.join(STRINGS.marqueeJoiner), "vertical");
+      makeMarquee(fullScreenInfotext, infotexts.general.join(STRINGS.marqueeJoiner.general), "vertical");
     }
   }
   else {
