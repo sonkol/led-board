@@ -77,9 +77,6 @@ parameters.minutesAfter = (Number.isInteger(Number.parseInt(parameters.minutesAf
 parameters.displayWidth = (Number.isInteger(Number.parseInt(parameters.displayWidth))) ? Math.min(Math.max(parameters.displayWidth, 370), 384) : PARAMETERS.displayWidth;
 if (/^[a-zA-Z0-9_-]$/.test(parameters.preset)) parameters.preset = PARAMETERS.preset;
 
-// Set font size
-updateFontSize();
-
 // Construct query string
 const queryString = new URLSearchParams(parameters);
 
@@ -159,13 +156,7 @@ function updateContent(data) {
   // Then print the platform numbers when more then one stop to display
   settings.showPlatformNumbers = (uniqueStops.size > 1) ? true : false;
   
-  // Set the mumber of rows according to the content if using preset, within prescribed bounds
-  if (typeof parameters.preset !== "undefined") {
-    parameters.limit = Math.min(Math.max(data.departures.length, SETTINGS.rowLimit.min), SETTINGS.rowLimit.max);
-    updateFontSize();
-  }
-
-  // Start placing departures into the table
+   // Start placing departures into the table
   const body = document.getElementsByTagName("main")[0];
   body.replaceChildren();
   let counter = 1;
@@ -323,19 +314,6 @@ function makeMarquee(element, content, direction = "horizontal") {
   else {
     const marqueeDurationHorizontal = marqueeContent.scrollWidth / SETTINGS.animationSpeed;
     document.documentElement.style.setProperty("--marquee-duration-horizontal", marqueeDurationHorizontal + "s");
-  }
-}
-
-function updateFontSize() {
-  // Copy the desired number of rows to CSS
-  document.documentElement.style.setProperty("--displayed-rows", parameters.limit);
-  const bodyClasses = document.getElementsByTagName("body")[0].classList
-  bodyClasses.remove(...bodyClasses);
-  bodyClasses.add("fontsize" + parameters.limit);
-
-  // Copy the display width to CSS
-  if (parameters.displayWidth !== PARAMETERS.displayWidth) {
-    document.documentElement.style.setProperty("--total-width", parameters.displayWidth + "px");
   }
 }
 
