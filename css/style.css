@@ -5,18 +5,27 @@
   --marquee-duration-vertical: 10s;
 }
 
+/* Fallback font */
 @font-face {
   font-family: "Lato";
   src: url("../fonts/lato-regular.woff2") format('woff2');
 }
 
+/* Proprietary font */
+@font-face {
+  font-family: "Prague Citizen";
+  src: url("../fonts/prague_citizen_light.woff2") format('woff2');
+  font-weight: light;
+}
+
 @font-face {
   font-family: "Prague Citizen";
   src: url("../fonts/prague_citizen_semibold.woff2") format('woff2');
+  font-weight: bold;
 }
 
 body {
-  filter: grayscale(1); /* Odstraní barevný šum na hranách textu způsobený hintingem */
+  filter: grayscale(0); /* Odstraní barevný šum na hranách textu způsobený hintingem */
   background-color: black;
   color: white;
   font-family: 'Prague Citizen', 'Lato', sans-serif;
@@ -34,7 +43,8 @@ body {
   /* transform: scale(9.43); /* Tímto se zapíná zvětšení na 1:1 při zobrazení na 96 dpi monitoru) */
   transform-origin: top left;
   box-sizing: border-box;
-  image-rendering: pixelated;
+  image-rendering: smooth;
+  font-weight: bold;
 }
 
 main {
@@ -154,6 +164,20 @@ hr {
   margin-right: 8px;
   white-space: nowrap;
   overflow: hidden;
+}
+
+#infotext:lang(en) {
+  font-weight: light;
+}
+
+#infotext::before {
+  content: url(../img/hatch.svg);
+  height: 100%;
+  aspect-ratio: 1;
+  filter: grayscale(0);
+  z-index: 1;
+  background-color: black;
+  padding-right: 0px;
 }
 
 /* Animation of linear information text courtresy of Ryan Mulligan */
