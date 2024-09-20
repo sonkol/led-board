@@ -7,12 +7,12 @@
 
 @font-face {
   font-family: "Lato";
-  src: url("lato-regular.woff2") format('woff2');
+  src: url("fonts/lato-regular.woff2") format('woff2');
 }
 
 @font-face {
   font-family: "Prague Citizen";
-  src: url("prague_citizen_semibold.woff2") format('woff2');
+  src: url("fonts/prague_citizen_semibold.woff2") format('woff2');
 }
 
 body {
@@ -95,12 +95,12 @@ main:has(#fullscreen-text-content) {
 }
 
 .accessible.true {
-  background-image: url(accessible.svg);
+  background-image: url(img/accessible.svg);
   background-size: 10px 11px;
 }
 
 .aircondition.true {
-  background-image: url(snowflake.svg);
+  background-image: url(img/snowflake.svg);
   background-size: 11px 11px;
 }
 
