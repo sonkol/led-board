@@ -37,7 +37,7 @@ body {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-  padding: 4px 12px 0px 5px;
+  padding: 4px 5px 0px 5px;
   margin: 0;
   width: var(--total-width);
   height: var(--total-height);
@@ -118,12 +118,12 @@ main:has(#fullscreen-text-content):before {
 
 .accessible.true {
   background-image: url(../img/accessible.svg);
-  background-size: 10px 11px;
+  background-size: 12px 12px;
 }
 
 .aircondition.true {
   background-image: url(../img/snowflake.svg);
-  background-size: 11px 11px;
+  background-size: 12px 12px;
 }
 
 .headsign {
@@ -160,7 +160,7 @@ hr {
 #datetime {
   display: flex;
   justify-content: space-between;
-  height: 20px;
+  height: 19px;
 }
 
 #colon {
@@ -213,6 +213,10 @@ span:lang(en) {
 #fullscreen-text-content .marquee-content-vertical span:lang(cs),
 #fullscreen-text-content span:not(:first-of-type):lang(cs) {
   margin-top: 1ex;
+}
+
+#fullscreen-text-content .marquee-content-vertical span:lang(en) {
+  margin-top: 0.5ex;
 }
 
 /* Animation of linear information text courtresy of Ryan Mulligan */
