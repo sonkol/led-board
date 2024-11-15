@@ -5,7 +5,7 @@
   --marquee-duration-vertical: 10s;
   --gap: 4px;
   --intra-group-separator-horizontal: " ";
-  --inter-group-separator-horizontal: "—";
+  --inter-group-separator-horizontal: " / "; /* Be sure to update also marqueeJoiner.inline */
 }
 
 /* Fallback font */
@@ -37,7 +37,7 @@ body {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-  padding: 4px 5px 0px 5px;
+  padding: 4px 12px 0px 5px;
   margin: 0;
   width: var(--total-width);
   height: var(--total-height);
@@ -150,7 +150,7 @@ img {
 hr {
   border: none;
   border-top: 1px solid white;
-  width: var(--total-width);
+  width: calc(max(370px, var(--total-width) - 12px));
   margin: 0;
   position: absolute;
   left: 0;
