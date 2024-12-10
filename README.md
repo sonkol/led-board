@@ -41,16 +41,17 @@ Pokud tabule nezískala po stanovenou dobu data, zobrazí se zpráva, že tabule
 Pokud kód zastávky vrací HTTP 404 (buď zastávka skutečně neexistuje nebo existovala, a byl zrušen provoz), zobrazí se, že není naplánovaný žádný odjezd.
 
 ## Soubory
-* accessible.svg – symbol přístupnosti pro nízkopodlažní spoje
-* end.mp3 – zvuk konce relace pro text-to-speech
-* hatch.svg – symbol šrafy
-* index.html – hlavní stránka
-* key.js – soubor s API klíčem. Při používání presetů není potřeba.
-* lato-regular.woff2 – náhradní svobodné písmo
-* led-board.js – skript, který oživuje stránku
-* prague_citizen_light.woff2 – Výchozí licencované písmo
-* prague_citizen_semibold.woff2 – Výchozí licencované písmo
 * README.md – tento soubor
-* snowflake.svg – symbol vločky pro klimatizované spoje
-* start.mp3 – zvuk začátku relace pro text-to-speech
-* style.css – stylopis
+* css/style.css – stylopis
+* fonts/lato-regular.woff2 – náhradní svobodné písmo
+* fonts/prague_citizen_light.woff2 – Výchozí licencované písmo
+* fonts/prague_citizen_semibold.woff2 – Výchozí licencované písmo
+* img/accessible.svg – symbol přístupnosti pro nízkopodlažní spoje
+* img/hatch.svg – symbol šrafy
+* img/snowflake.svg – symbol vločky pro klimatizované spoje
+* img/warning.svg – výkřičník k informačním textům
+* index.html – hlavní stránka
+* lib/key.js – soubor s API klíčem. Při používání presetů není potřeba.
+* lib/led-board.js – skript, který oživuje stránku
+* sounds/end.mp3 – zvuk konce relace pro text-to-speech
+* sounds/start.mp3 – zvuk začátku relace pro text-to-speech
