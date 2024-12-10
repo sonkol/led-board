@@ -14,7 +14,7 @@ Tabule podporuje níže popsanou podmnožinu parametrů, které se zapisují do 
 |`aswIds`      |`539_1`           | Zobrazovaná zastávka dle číselníku ASW. Výchozí je Národní třída. Přípustné je žádat celý uzel nebo jedno stanoviště (oddělené podtržítkem).  |
 |`displayWidth`|`384`             | Nastaví šířku obrazovky. Platné hodnoty mezi `370`–`384` px.                                                                                  |
 |`filter`      |`routeHeadingOnce`| Filtruje zobrazení linek. Platné hodnoty jako v položce *filter* z dokumentace Golemio API.                                                   |
-|`limit`       |`5`               | Počet zobrazených odjezdů. Velikost písma se přispůsobí. Platné hodnoty `1`–`6`. Pro `1`–`3` je velikost písma stejná jako pro `4`.           |
+|`limit`       |`5`               | Počet zobrazených odjezdů. Platné hodnoty `1`–`5`. Doporučeno ponechat 5, písmo zůstane vždy stejně velké.                                    |
 |`minutesAfter`|`99`              | Omezí zobrazení odjezdů do počtu minut. Platné hodnoty `0`–`1440`.                                                                            |
 |`preset`      |                  | Kód přednastavené zastávky. Vylučuje se s ostatními parametry mimo `displayWidth`.                                                            |
 |`skip`        |`atStop`          | Nebude zobrazovat spoje hlásící se v zastávce. Platné hodnoty jako v položce *skip* z dokumentace Golemio API.                                |
@@ -23,11 +23,6 @@ Příklad výchozí URL se všemi parametry: `index.html?airCondition=true&aswId
 
 ## Funkce
 Aplikace je určená pro zobrazování tabulí na LED panelech, a proto podporuje jen potřebnou podmnožinu zobrazovacích funkcí. Aplikaci stačí spustit a sama se bude dotazovat na odjezdy. Aplikace se v případě pádu nebo aktualizace sama nenačte, to je věcí content managementu. 
-
-Tabule nepoužívá pravých 12 sloupců diod, které jsou skryty za maskou. Tato hodnota je nastavena ve style.css, položka body: padding.
-
-### Automatické určování počtu řádků
-Tabule přizpůsobuje velikost textu počtu řádků. Tabule zobrazuje 4, 5 nebo 6 odjezdů a řádek s datem a časem.
 
 Velikost čísla linky a konečné zastávky se přizpůsobí volnému místu. Základní délka čísla linky je na 4 znaky. 
 
@@ -46,13 +41,16 @@ Pokud tabule nezískala po stanovenou dobu data, zobrazí se zpráva, že tabule
 Pokud kód zastávky vrací HTTP 404 (buď zastávka skutečně neexistuje nebo existovala, a byl zrušen provoz), zobrazí se, že není naplánovaný žádný odjezd.
 
 ## Soubory
-* accessible.webp – symbol přístupnosti pro nízkopodlažní spoje
+* accessible.svg – symbol přístupnosti pro nízkopodlažní spoje
 * end.mp3 – zvuk konce relace pro text-to-speech
+* hatch.svg – symbol šrafy
 * index.html – hlavní stránka
-* key.js – soubor s API klíčem. Při používámní presetů není potřeba.
-* lato-regular.woff2 – písmo
+* key.js – soubor s API klíčem. Při používání presetů není potřeba.
+* lato-regular.woff2 – náhradní svobodné písmo
 * led-board.js – skript, který oživuje stránku
+* prague_citizen_light.woff2 – Výchozí licencované písmo
+* prague_citizen_semibold.woff2 – Výchozí licencované písmo
 * README.md – tento soubor
-* snowflake.webp – symbol vločky pro klimatizované spoje
+* snowflake.svg – symbol vločky pro klimatizované spoje
 * start.mp3 – zvuk začátku relace pro text-to-speech
 * style.css – stylopis
