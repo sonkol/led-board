@@ -11,7 +11,7 @@ Tabule podporuje níže popsanou podmnožinu parametrů, které se zapisují do 
 | Parametr     | Výchozí hodnota  | Význam                                                                                                                                        |
 |--------------|------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
 |`airCondition`|`true`            | Zapíná indikaci klimatizace. `true` nebo `false`.                                                                                             |
-|`aswIds`      |`539_1`           | Zobrazovaná zastávka dle číselníku ASW. Výchozí je Národní třída. Přípustné je žádat celý uzel nebo jedno stanoviště (oddělené podtržítkem).  |
+|`aswIds`      |                  | Zobrazovaná zastávka dle číselníku ASW. Přípustné je zadat celý uzel nebo jedno stanoviště (oddělené podtržítkem).                            |
 |`displayWidth`|`384`             | Nastaví šířku obrazovky. Platné hodnoty mezi `370`–`384` px.                                                                                  |
 |`filter`      |`routeHeadingOnce`| Filtruje zobrazení linek. Platné hodnoty jako v položce *filter* z dokumentace Golemio API.                                                   |
 |`limit`       |`5`               | Počet zobrazených odjezdů. Platné hodnoty `1`–`5`. Doporučeno ponechat 5, písmo zůstane vždy stejně velké.                                    |
@@ -19,7 +19,7 @@ Tabule podporuje níže popsanou podmnožinu parametrů, které se zapisují do 
 |`preset`      |                  | Kód přednastavené zastávky. Vylučuje se s ostatními parametry mimo `displayWidth`.                                                            |
 |`skip`        |`atStop`          | Nebude zobrazovat spoje hlásící se v zastávce. Platné hodnoty jako v položce *skip* z dokumentace Golemio API.                                |
 
-Příklad výchozí URL se všemi parametry: `index.html?airCondition=true&aswIds=539_1&displayWidth=384&filter=routeHeadingOnce&limit=5&minutesAfter=99&skip=atStop`
+Příklad URL se všemi parametry: `index.html?airCondition=true&aswIds=539_1&displayWidth=384&filter=routeHeadingOnce&limit=5&minutesAfter=99&skip=atStop`
 
 ## Funkce
 Aplikace je určená pro zobrazování tabulí na LED panelech, a proto podporuje jen potřebnou podmnožinu zobrazovacích funkcí. Aplikaci stačí spustit a sama se bude dotazovat na odjezdy. Aplikace se v případě pádu nebo aktualizace sama nenačte, to je věcí content managementu. 
@@ -33,7 +33,8 @@ Pokud jsou do tabule posílány odjezdy z více stanovišť, zobrazí se sloupec
 Tabule zobrazuje řádkový a celoplošný informační text. Pokud se informační text nevejde na obrazovku, je animovaný.
 
 ### Čtení pro nevidomé
-Stisknutím tlačítka `Num1` se přečte název zastávky. Stisknutím tlačítka `Num6` se přečte seznam odjezdů z tabule. Tlačítko `Num5` zastaví čtení. Opětovné stisknutí `Num5` čtení obnoví. Pokud jsou přítomny infotexty, přečtou se před odjezdy. Pokud je tabule prázdná, ohlásí se, že není plánovaný žádný odjezd.
+Čtení pro nevidomé bylo zakomentováno.
+~Stisknutím tlačítka `Num1` se přečte název zastávky. Stisknutím tlačítka `Num6` se přečte seznam odjezdů z tabule. Tlačítko `Num5` zastaví čtení. Opětovné stisknutí `Num5` čtení obnoví. Pokud jsou přítomny infotexty, přečtou se před odjezdy. Pokud je tabule prázdná, ohlásí se, že není plánovaný žádný odjezd.~
 
 ### Ostatní stavy
 Pokud tabule nezískala po stanovenou dobu data, zobrazí se zpráva, že tabule je mimo provoz.
@@ -44,8 +45,8 @@ Pokud kód zastávky vrací HTTP 404 (buď zastávka skutečně neexistuje nebo 
 * README.md – tento soubor
 * css/style.css – stylopis
 * fonts/lato-regular.woff2 – náhradní svobodné písmo
-* fonts/prague_citizen_light.woff2 – Výchozí licencované písmo
-* fonts/prague_citizen_semibold.woff2 – Výchozí licencované písmo
+* fonts/prague_citizen_light.woff2 – licencované písmo – není součástí základní verze
+* fonts/prague_citizen_semibold.woff2 – licencované písmo – není součástí základní verze
 * img/accessible.svg – symbol přístupnosti pro nízkopodlažní spoje
 * img/hatch.svg – symbol šrafy
 * img/snowflake.svg – symbol vločky pro klimatizované spoje
