@@ -11,19 +11,19 @@
 /* Fallback font */
 @font-face {
   font-family: "Lato";
-  src: url("../fonts/lato-regular.woff2") format('woff2');
+  src: url("../fonts/lato-regular.woff2?v=1") format('woff2');
 }
 
 /* Proprietary font */
 @font-face {
   font-family: "Prague Citizen";
-  src: url("../fonts/prague_citizen_light.woff2") format('woff2');
+  src: url("../fonts/prague_citizen_light.woff2?v=1") format('woff2');
   font-weight: 300;
 }
 
 @font-face {
   font-family: "Prague Citizen";
-  src: url("../fonts/prague_citizen_semibold.woff2") format('woff2');
+  src: url("../fonts/prague_citizen_semibold.woff2?v=1") format('woff2');
   font-weight: bold;
 }
 
@@ -67,7 +67,7 @@ main:has(#fullscreen-text-content) {
 }
 
 main:has(#fullscreen-text-content):before {
-  content: url("../img/warning.svg");
+  content: url("../img/warning.svg?v=1");
   aspect-ratio: 1;
   width: 58px;
   align-self: start;
@@ -116,12 +116,12 @@ main:has(#fullscreen-text-content):before {
 }
 
 .accessible.true {
-  background-image: url(../img/accessible.svg);
+  background-image: url("../img/accessible.svg?v=1");
   background-size: 12px 12px;
 }
 
 .aircondition.true {
-  background-image: url(../img/snowflake.svg);
+  background-image: url("../img/snowflake.svg?v=1");
   background-size: 12px 12px;
 }
 
@@ -180,7 +180,7 @@ hr {
 }
 
 #infotext::before {
-  content: url(../img/hatch.svg);
+  content: url("../img/hatch.svg?v=1");
   height: 100%;
   aspect-ratio: 1;
   filter: grayscale(0);
