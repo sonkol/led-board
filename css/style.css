@@ -33,7 +33,6 @@ body {
   color: white;
   font-family: 'Prague Citizen', 'Lato', sans-serif;
   font-size: 16px;
-  outline: 1px dotted white;
   display: flex;
   justify-content: space-between;
   flex-direction: column;
