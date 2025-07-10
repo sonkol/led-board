@@ -476,7 +476,7 @@ function prepareReadOutDepartures(data) {
 // Load sounds
 function playChime(file) {
   return new Promise(function (resolve, reject) {
-    const sound = new Audio(`sounds/${file}.mp3`);
+    const sound = new Audio(`${file}.mp3`);
     sound.onerror = reject;
     sound.onended = resolve;
     sound.play();
