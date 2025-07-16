@@ -1,20 +1,19 @@
 "use strict";
 // Constant definitions
 const SETTINGS = {
-  "animationSpeed": 100, // Speed of marqee in some arbitrary units
+  "animationSpeed": 75, // Speed of marqee in some arbitrary units. Higher is faster
   "offlineLimit": 90, // After this count of seconds without refresh, display error message
   "prefix": "https://api.golemio.cz/v2/pid/departureboards?", // General purpose URL
   "preset": "https://s.golemio.cz/pid/", // URL for presets
-  "rowLimit": {
-    "min": 4,
-    "max": 6
-  },
   "httpTimeout": 20, // seconds
   "speechSpeed": 1 // Speed of speech (default is 1)
 }
 
 const STRINGS = {
-  "marqueeJoiner": " • ", // String with which to join information texts 
+  "marqueeJoiner": { // String with which to join information texts
+    "inline" : " / ",
+    "general" : "",
+  }, 
   "dayOfWeek": ["neděle", "pondělí", "úterý", "středa", "čtvrtek", "pátek", "sobota"], // Dictionary of week days
   "http400Message": "<p>Omlouváme se, zařízení je dočasně mimo provoz</p><p>Aktuální odjezdy spojů naleznete na webu pid.cz/odjezdy</p>",
   "http401Message": "<p>Omlouváme se, zařízení je dočasně mimo provoz</p><p>Aktuální odjezdy spojů naleznete na webu pid.cz/odjezdy</p>",
@@ -36,20 +35,26 @@ let data = "";
 // Default settings of URL parameters, are relevant to Golemio API parameters
 const PARAMETERS = {
   "airCondition": true,
-  "aswIds": "539_1",
+  "aswIds": undefined,
   "filter": "routeHeadingOnce",
-  "limit": 5, // Number of lines: 1-6
+  "limit": 5, // Number of lines to display
   "skip": "atStop",
   "minutesAfter": 99,  // Minutes in the future to display departures: 0-1440
   "displayWidth": 384, // Width of the LED matrix in px: 370-384
   "preset": undefined
 }
 
+// These parameters are not part of the API and shall be removed from the URI
+const PARAMETERS_OUT_OF_API = ["displayWidth"];
+
 // Make a copy of parameters which can be edited
 let parameters = structuredClone(PARAMETERS);
 
 // Lock it so no unauthorized values cannot be added
 Object.seal(parameters);
+
+// Clear hash in url
+history.replaceState("", document.title, window.location.pathname + window.location.search);
 
 // Get parameters from the URL
 let searchString = new URLSearchParams(document.location.search);
@@ -66,16 +71,23 @@ for (const [key, value] of searchString) {
 if (!["true", "false"].includes(parameters.airCondition)) parameters.airCondition = PARAMETERS.airCondition;
 if (!/^[1-9][0-9]{0,4}(_\d{1,3})?$/.test(parameters.aswIds)) parameters.aswIds = PARAMETERS.aswIds;
 if (!["none", "routeOnce", "routeHeadingOnce", "routeOnceFill", "routeHeadingOnceFill", "routeHeadingOnceNoGap", "routeHeadingOnceNoGapFill"].includes(parameters.filter)) parameters.filter = PARAMETERS.filter;
-parameters.limit = (parameters.limit.length === 0) ? PARAMETERS.limit : Math.min(Math.max(parameters.limit, 0), 6); // Clamp number of displayed lines
+parameters.limit = (parameters.limit.length === 0) ? PARAMETERS.limit : Math.min(Math.max(parameters.limit, 0), 5); // Clamp number of displayed lines
 parameters.minutesAfter = (Number.isInteger(Number.parseInt(parameters.minutesAfter))) ? Math.min(Math.max(parameters.minutesAfter, 0), 1440) : PARAMETERS.minutesAfter; // Clamp minutesAfter
 parameters.displayWidth = (Number.isInteger(Number.parseInt(parameters.displayWidth))) ? Math.min(Math.max(parameters.displayWidth, 370), 384) : PARAMETERS.displayWidth;
 if (/^[a-zA-Z0-9_-]$/.test(parameters.preset)) parameters.preset = PARAMETERS.preset;
 
-// Set font size
-updateFontSize();
-
 // Construct query string
 const queryString = new URLSearchParams(parameters);
+
+//Remove parameters for local control
+for (const parameter of PARAMETERS_OUT_OF_API) {
+  queryString.delete(parameter);
+}
+
+// Copy the display width to CSS
+if (parameters.displayWidth !== PARAMETERS.displayWidth) {
+  document.documentElement.style.setProperty("--total-width", parameters.displayWidth + "px");
+}
 
 // Fill table with content for the first time
 getData(queryString);
@@ -148,13 +160,7 @@ function updateContent(data) {
   // Then print the platform numbers when more then one stop to display
   settings.showPlatformNumbers = (uniqueStops.size > 1) ? true : false;
   
-  // Set the mumber of rows according to the content if using preset, within prescribed bounds
-  if (typeof parameters.preset !== "undefined") {
-    parameters.limit = Math.min(Math.max(data.departures.length, SETTINGS.rowLimit.min), SETTINGS.rowLimit.max);
-    updateFontSize();
-  }
-
-  // Start placing departures into the table
+   // Start placing departures into the table
   const body = document.getElementsByTagName("main")[0];
   body.replaceChildren();
   let counter = 1;
@@ -222,14 +228,19 @@ function processInfoTexts(data) {
 
   // Separate inline and fullscreen infotexts
   for (const text of data) {
+    const czechText = `<span lang="cs">${text.text?.trim()}</span>`;
+    const englishText = `<span lang="en">${text.text_en?.trim()}</span>`;
+
     if (text.display_type === "inline") {
-      if (text.text) infotexts.inline.push(text.text.trim());
-      if (text.text_en) infotexts.inline.push(text.text_en.trim());
+      infotexts.inline.push('<p class="infotext-group">');
+      if (text.text) infotexts.inline.push(czechText);
+      if (text.text_en) infotexts.inline.push(englishText);
+      infotexts.inline.push("</p>");
       inline = true;
     }
     else {
-      if (text.text) infotexts.general.push(text.text.trim());
-      if (text.text_en) infotexts.general.push(text.text_en.trim());
+      if (text.text) infotexts.general.push(czechText);
+      if (text.text_en) infotexts.general.push(englishText);
       general = true;
     }
 
@@ -249,14 +260,15 @@ function processInfoTexts(data) {
   // One-liners
   const infotextBar = document.getElementById("infotext");
   const dateBar = document.getElementById("date");
-  if (inline) {
 
+  if (inline) {
     // Non-overflowing (short) information text is static
-    infotextBar.innerHTML = infotexts.inline.join(STRINGS.marqueeJoiner);
-    infotextBar.style.display = "flex";
+    const infotextContent = infotexts.inline.join("")
     dateBar.style.display = "none";
+    infotextBar.innerHTML = infotextContent;
+    infotextBar.style.display = "flex";
     if (infotextBar.scrollWidth > infotextBar.clientWidth) {
-      makeMarquee(infotextBar, infotexts.inline.join(STRINGS.marqueeJoiner));
+      makeMarquee(infotextBar, infotextContent);
     }
   }
   else {
@@ -269,11 +281,11 @@ function processInfoTexts(data) {
   // Full screen messages
   if (general) {
     settings.infotextGeneral = true;
-    fullScreenMessage(infotexts.general.join(STRINGS.marqueeJoiner));
+    fullScreenMessage(infotexts.general.join(STRINGS.marqueeJoiner.general));
 
     const fullScreenInfotext = document.getElementById("fullscreen-text-content");
     if (fullScreenInfotext.scrollHeight > document.getElementById("main").clientHeight) {
-      makeMarquee(fullScreenInfotext, infotexts.general.join(STRINGS.marqueeJoiner), "vertical");
+      makeMarquee(fullScreenInfotext, infotexts.general.join(STRINGS.marqueeJoiner.general), "vertical");
     }
   }
   else {
@@ -289,14 +301,14 @@ function makeMarquee(element, content, direction = "horizontal") {
   element.textContent = "";
   const marqueeContent = document.createElement("div");
   
-  marqueeContent.textContent = content;
+  marqueeContent.innerHTML = content;
 
   /* Assign direction of animation */
   if (direction === "vertical") {
-    marqueeContent.classList.add("marqueeContentVertical");
+    marqueeContent.classList.add("marquee-content-vertical");
   }
   else {
-    marqueeContent.classList.add("marqueeContentHorizontal");
+    marqueeContent.classList.add("marquee-content-horizontal");
   }
 
   // The element has to be doubled to animate seamlessly
@@ -307,7 +319,7 @@ function makeMarquee(element, content, direction = "horizontal") {
   its length, duration has to be recalculated for every text. */
   if (direction === "vertical") {
     const marqueeDurationVertical = element.scrollHeight / SETTINGS.animationSpeed;
-    document.documentElement.style.setProperty("--marquee-duration-vertical", marqueeDurationVertical * 4 + "s");
+    document.documentElement.style.setProperty("--marquee-duration-vertical", marqueeDurationVertical * 2.5 + "s");
   }
   else {
     const marqueeDurationHorizontal = marqueeContent.scrollWidth / SETTINGS.animationSpeed;
@@ -315,23 +327,10 @@ function makeMarquee(element, content, direction = "horizontal") {
   }
 }
 
-function updateFontSize() {
-  // Copy the desired number of rows to CSS
-  document.documentElement.style.setProperty("--displayed-rows", parameters.limit);
-  const bodyClasses = document.getElementsByTagName("body")[0].classList
-  bodyClasses.remove(...bodyClasses);
-  bodyClasses.add("fontsize" + parameters.limit);
-
-  // Copy the display width to CSS
-  if (parameters.displayWidth !== PARAMETERS.displayWidth) {
-    document.documentElement.style.setProperty("--total-width", parameters.displayWidth + "px");
-  }
-}
-
 // Text to speech
 // Convert route numbers with letters to pronounced separate letters
 function mixedNumberToWords(inputString) {
-  if (inputString.length === 0) {
+  if (inputString === null || inputString.length === 0) {
     return "";
   }
 
@@ -403,11 +402,20 @@ document.addEventListener("keydown", function (event) {
 
 // Read header in form Stop Name + platform name. Does not sound well for stops with many platforms
 function prepareReadOutHeader(data) {
+  if (data.length === 0) return "Zařízení mimo provoz";
   let uniquePlatforms = new Set();
   for (const stop of data.stops) {
-    uniquePlatforms.add(mixedNumberToWords(stop.platform_code));
+    uniquePlatforms.add(stop.platform_code);
   }
-  return data.stops[0].stop_name + " stanoviště " + [...uniquePlatforms].join("– a ");
+
+  // Sort the platform codes, weed out nulls and convert them to words
+  const collator = new Intl.Collator(undefined, { numeric: true, sensitivity: "base" });
+  uniquePlatforms.delete(null);
+  uniquePlatforms = [...uniquePlatforms].sort(collator.compare);
+  uniquePlatforms = uniquePlatforms.map((platformCode) => mixedNumberToWords(platformCode));
+  
+  // The dash adds a short stop after each letter
+  return data.stops[0].stop_name + " stanoviště " + uniquePlatforms.join("– a ");
 }
 
 function prepareReadOutDepartures(data) {
@@ -416,12 +424,12 @@ function prepareReadOutDepartures(data) {
 
   // Fallback message when no data is received
   if (!data) {
-    sentences.push("Zastávka je nyní bez provozu");
+    sentences.push("Bohužel nyní nemám data o odjezdech");
     return sentences;
   }
 
   // Shortcut if no departures available
-  if (data.departures.length === 0) {
+  if (data.departures.length === 0 && data.infotexts.length === 0) {
     sentences.push("V blízké době není naplánovaný žádný odjezd.");
   }
 
@@ -481,6 +489,10 @@ function endRead() {
 };
 
 async function readOutLoud(sentences) {
+  // Export the read out text to url to be grabbed by an external reader
+  window.location.hash = sentences;
+  return false;
+  /*
   // Do not read if other reading is in progress
   if (settings.reading && !window.speechSynthesis.paused || window.speechSynthesis.pending) return false;
 
@@ -514,9 +526,9 @@ function updateClock() {
   const date = STRINGS.dayOfWeek[now.getDay()] +
     "&ensp;" +
     padNumber(now.getDate()) +
-    ".&thinsp;" +
+    "." +
     padNumber(now.getMonth() + 1) +
-    ".&thinsp;" +
+    "." +
     padNumber(now.getFullYear());
 
   // Time 03:14

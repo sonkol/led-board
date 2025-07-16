@@ -1,27 +1,42 @@
 :root {
-  --displayed-rows: 5;
   --total-height: 128px;
   --total-width: 384px;
-  --row-height: var(--total-height) / (var(--displayed-rows) + 1);
   --marquee-duration-horizontal: 10s;
   --marquee-duration-vertical: 10s;
+  --gap: 4px;
+  --intra-group-separator-horizontal: " ";
+  --inter-group-separator-horizontal: " / "; /* Be sure to update also marqueeJoiner.inline */
 }
 
+/* Fallback font */
 @font-face {
   font-family: "Lato";
   src: url("lato-regular.woff2") format('woff2');
 }
 
+/* Proprietary font */
+@font-face {
+  font-family: "Prague Citizen";
+  src: url("prague_citizen_light.woff2") format('woff2');
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: "Prague Citizen";
+  src: url("prague_citizen_semibold.woff2") format('woff2');
+  font-weight: bold;
+}
+
 body {
-  filter: grayscale(1); /* Odstraní barevný šum na hranách textu způsobený hintingem */
+  filter: grayscale(0); /* Odstraní barevný šum na hranách textu způsobený hintingem */
   background-color: black;
   color: white;
-  font-family: 'Lato', sans-serif;
-  outline: 1px dotted white;
+  font-family: 'Prague Citizen', 'Lato', sans-serif;
+  font-size: 16px;
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-  padding: 2px 12px 0px 2px;
+  padding: 4px 5px 0px 5px;
   margin: 0;
   width: var(--total-width);
   height: var(--total-height);
@@ -30,13 +45,16 @@ body {
   /* transform: scale(9.43); /* Tímto se zapíná zvětšení na 1:1 při zobrazení na 96 dpi monitoru) */
   transform-origin: top left;
   box-sizing: border-box;
+  image-rendering: auto; /* Hack pro prohlížeče nepodporující správná klíčova slova pro způsob vykreslování */
+  image-rendering: smooth;
+  font-weight: bold;
 }
 
 main {
-  height: calc(var(--total-height) - var(--row-height));
+  height: 100px;
   display: grid;
-  grid-template-columns: [start] 4ch 10px 11px 1fr max-content 3ch [end];
-  grid-template-rows: [top] var(--row-height) [bottom];
+  grid-template-columns: [start] 30px 12px 12px 1fr max-content 3ch [end];
+  grid-template-rows: [top] 20px [bottom];
   column-gap: 3px;
   align-content: start;
   align-items: center;
@@ -45,17 +63,31 @@ main {
 
 main:has(#fullscreen-text-content) {
   align-content: center;
-  flex-grow: 1;
+  grid-template-rows: [top] 1fr [bottom];
+}
+
+main:has(#fullscreen-text-content):before {
+  content: url("warning.svg");
+  aspect-ratio: 1;
+  width: 58px;
+  align-self: start;
 }
 
 #fullscreen-text-content {
-  grid-column: start / end;
-  text-align: center;
-  align-self: center;
+  grid-column: 4 / end;
+  text-align: left;
+  align-self: start;
+  hyphens: auto;
 }
 
-#fullscreen-text-content>p {
-  margin: 0 0;
+#fullscreen-text-content > p {
+  margin: 0;
+}
+
+#main > div:not(#fullscreen-text-content) {
+  height: 20px;
+  display: grid;
+  align-items: center;
 }
 
 .route {
@@ -79,23 +111,18 @@ main:has(#fullscreen-text-content) {
 .accessible.true,
 .aircondition.true {
   background-repeat: no-repeat;
-  background-position: center 40%;
+  background-position: center center;
   filter: brightness(0.95);
 }
 
 .accessible.true {
-  background-image: url(accessible.webp);
-  background-size: 10px 11px;
+  background-image: url("accessible.svg");
+  background-size: 12px 12px;
 }
 
 .aircondition.true {
-  background-image: url(snowflake.webp);
-  background-size: 11px 11px;
-}
-
-body.fontsize4 .accessible.true,
-body.fontsize4 .aircondition.true {
-  background-position-y: center;
+  background-image: url("snowflake.svg");
+  background-size: 12px 12px;
 }
 
 .headsign {
@@ -117,14 +144,22 @@ body.fontsize4 .aircondition.true {
 img {
   width: 10px;
   height: 100%;
-  max-height: calc(var(--total-height) * 0.6 / var(--displayed-rows) - 1);
+}
+
+hr {
+  border: none;
+  border-top: 1px solid white;
+  width: 100%;
+  margin: 0;
+  position: absolute;
+  left: 0;
+  bottom: 20px;
 }
 
 #datetime {
   display: flex;
   justify-content: space-between;
-  height: var(--row-height);
-  margin-bottom: -2px; /* Compensate for too high baseline */
+  height: 19px;
 }
 
 #colon {
@@ -140,11 +175,51 @@ img {
   margin-right: 8px;
   white-space: nowrap;
   overflow: hidden;
+  width: 100%;
+  gap: var(--gap);
+}
+
+#infotext::before {
+  content: url("hatch.svg");
+  height: 100%;
+  aspect-ratio: 1;
+  filter: grayscale(0);
+  z-index: 1;
+  background-color: black;
+}
+
+#infotext p.infotext-group {
+  margin: 0;
+}
+
+#infotext p.infotext-group span:before {
+  content: var(--intra-group-separator-horizontal);
+}
+
+#infotext .marquee-content-horizontal p.infotext-group:before,
+#infotext p.infotext-group:not(:first-of-type):before {
+  content: var(--inter-group-separator-horizontal);
+}
+
+span:lang(en) {
+  font-weight: 300;
+}
+
+#fullscreen-text-content span {
+  display: block;
+}
+
+#fullscreen-text-content .marquee-content-vertical span:lang(cs),
+#fullscreen-text-content span:not(:first-of-type):lang(cs) {
+  margin-top: 1ex;
+}
+
+#fullscreen-text-content .marquee-content-vertical span:lang(en) {
+  margin-top: 0.5ex;
 }
 
 /* Animation of linear information text courtresy of Ryan Mulligan */
 .marquee {
-  --gap: 1rem;
   position: relative;
   display: flex;
   overflow: hidden;
@@ -152,30 +227,25 @@ img {
   gap: var(--gap);
 }
 
-.marquee:has(.marqueeContentVertical) {
+.marquee:has(.marquee-content-vertical) {
   flex-direction: column;
 }
 
-.marqueeContentHorizontal {
+.marquee-content-horizontal {
   flex-shrink: 0;
   display: flex;
   justify-content: space-around;
   gap: var(--gap);
-  min-width: 100%;
   animation-name: scrollX;
   animation-duration: var(--marquee-duration-horizontal);
   animation-timing-function: linear;
   animation-iteration-count: infinite;
 }
 
-.marqueeContentHorizontal:after {
-  content: "•";
-}
-
-.marqueeContentVertical {
+.marquee-content-vertical {
   flex-shrink: 0;
   display: flex;
-  justify-content: space-around;
+  flex-flow: column;
   min-height: 100%;
   animation-name: scrollY;
   animation-duration: var(--marquee-duration-vertical);
@@ -195,28 +265,12 @@ img {
 
 @keyframes scrollY {
   from {
-    transform: translateY(50%);
+    transform: translateY(0%);
   }
 
   to {
-    transform: translateY(calc(-50% - var(--gap)));
+    transform: translateY(calc(-100% - var(--gap)));
   }
-}
-
-/* Napevno předdefinované velikosti písma dle počtu řádků. Při změně fontu bude potřeba překonfigurovat */
-.fontsize1,
-.fontsize2,
-.fontsize3,
-.fontsize4 {
-  font-size: 21px;
-}
-
-.fontsize5 {
-  font-size: 18px;
-}
-
-.fontsize6 {
-  font-size: 15px;
 }
 
 @keyframes blink {
