@@ -43,16 +43,20 @@ Pokud kód zastávky vrací HTTP 404 (buď zastávka skutečně neexistuje nebo 
 
 ## Soubory
 * README.md – tento soubor
-* css/style.css – stylopis
-* fonts/lato-regular.woff2 – náhradní svobodné písmo
-* fonts/prague_citizen_light.woff2 – licencované písmo – není součástí základní verze
-* fonts/prague_citizen_semibold.woff2 – licencované písmo – není součástí základní verze
-* img/accessible.svg – symbol přístupnosti pro nízkopodlažní spoje
-* img/hatch.svg – symbol šrafy
-* img/snowflake.svg – symbol vločky pro klimatizované spoje
-* img/warning.svg – výkřičník k informačním textům
-* index.html – hlavní stránka
-* lib/key.js – soubor s API klíčem. Při používání presetů není potřeba.
-* lib/led-board.js – skript, který oživuje stránku
-* sounds/end.mp3 – zvuk konce relace pro text-to-speech
-* sounds/start.mp3 – zvuk začátku relace pro text-to-speech
+* style.css – stylopis
+  * index.html – hlavní stránka
+* Písma
+  * lato-regular.woff2 – náhradní svobodné písmo
+  * prague_citizen_light.woff2 – licencované písmo – není součástí základní verze
+  * prague_citizen_semibold.woff2 – licencované písmo – není součástí základní verze¨
+* Obrázky
+  * accessible.svg – symbol přístupnosti pro nízkopodlažní spoje
+  * hatch.svg – symbol šrafy
+  * snowflake.svg – symbol vločky pro klimatizované spoje
+  * warning.svg – výkřičník k informačním textům
+* Skripty
+  * key.js – soubor s API klíčem. Při používání presetů není potřeba.
+  * led-board.js – skript, který oživuje stránku
+* Zvuky
+  * end.mp3 – zvuk konce relace pro text-to-speech
+  * start.mp3 – zvuk začátku relace pro text-to-speech
