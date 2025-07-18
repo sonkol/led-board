@@ -33,6 +33,8 @@ let settings = {
 let data = "";
 
 // Default settings of URL parameters, are relevant to Golemio API parameters
+/* Disabled per request
+
 const PARAMETERS = {
   "airCondition": true,
   "aswIds": undefined,
@@ -43,12 +45,13 @@ const PARAMETERS = {
   "displayWidth": 384, // Width of the LED matrix in px: 370-384
   "preset": undefined
 }
+  */
 
 // These parameters are not part of the API and shall be removed from the URI
 const PARAMETERS_OUT_OF_API = ["displayWidth"];
 
 // Make a copy of parameters which can be edited
-let parameters = structuredClone(PARAMETERS);
+let parameters = PARAMETERS;
 
 // Lock it so no unauthorized values cannot be added
 Object.seal(parameters);
@@ -57,6 +60,7 @@ Object.seal(parameters);
 history.replaceState("", document.title, window.location.pathname + window.location.search);
 
 // Get parameters from the URL
+/* Disabled per request
 let searchString = new URLSearchParams(document.location.search);
 for (const [key, value] of searchString) {
   try {
@@ -66,6 +70,7 @@ for (const [key, value] of searchString) {
     continue;
   };
 }
+*/
 
 // Assure that user input is correct, if not, replace with default values
 if (!["true", "false"].includes(parameters.airCondition)) parameters.airCondition = PARAMETERS.airCondition;
@@ -73,7 +78,9 @@ if (!/^[1-9][0-9]{0,4}(_\d{1,3})?$/.test(parameters.aswIds)) parameters.aswIds =
 if (!["none", "routeOnce", "routeHeadingOnce", "routeOnceFill", "routeHeadingOnceFill", "routeHeadingOnceNoGap", "routeHeadingOnceNoGapFill"].includes(parameters.filter)) parameters.filter = PARAMETERS.filter;
 parameters.limit = (parameters.limit.length === 0) ? PARAMETERS.limit : Math.min(Math.max(parameters.limit, 0), 5); // Clamp number of displayed lines
 parameters.minutesAfter = (Number.isInteger(Number.parseInt(parameters.minutesAfter))) ? Math.min(Math.max(parameters.minutesAfter, 0), 1440) : PARAMETERS.minutesAfter; // Clamp minutesAfter
+/* Disabled per request
 parameters.displayWidth = (Number.isInteger(Number.parseInt(parameters.displayWidth))) ? Math.min(Math.max(parameters.displayWidth, 370), 384) : PARAMETERS.displayWidth;
+*/
 if (/^[a-zA-Z0-9_-]$/.test(parameters.preset)) parameters.preset = PARAMETERS.preset;
 
 // Construct query string
@@ -84,10 +91,12 @@ for (const parameter of PARAMETERS_OUT_OF_API) {
   queryString.delete(parameter);
 }
 
+/* Disabled per request
 // Copy the display width to CSS
 if (parameters.displayWidth !== PARAMETERS.displayWidth) {
   document.documentElement.style.setProperty("--total-width", parameters.displayWidth + "px");
 }
+*/
 
 // Fill table with content for the first time
 getData(queryString);
@@ -568,3 +577,37 @@ const updateClockTimer = setInterval(function () {
     fullScreenMessage(STRINGS.offlineText);
   }
 }, 1000);
+
+// Added per request
+(function() {
+  // polyfill for replaceChildren
+  if( Node.prototype.replaceChildren === undefined) {
+    Node.prototype.replaceChildren = function(addNodes) {
+      while(this.lastChild) {
+        this.removeChild(this.lastChild);
+      }
+      if (addNodes !== undefined) {
+        this.append(addNodes);
+      }
+    }
+  }
+}());
+
+(function () {
+  if (!String.prototype.padStart) {
+    String.prototype.padStart = function padStart(targetLength, padString) {
+      targetLength = targetLength >> 0; // Truncate if number, or convert non-number to 0;
+      padString = String(padString || ' ');
+      if (this.length >= targetLength) {
+        return String(this);
+      } else {
+        targetLength = targetLength - this.length;
+        if (targetLength > padString.length) {
+          // Append to original to ensure we are longer than needed
+          padString += padString.repeat(targetLength / padString.length);
+        }
+        return padString.slice(0, targetLength) + String(this);
+      }
+    };
+  }
+}());
